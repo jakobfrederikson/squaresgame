@@ -14,12 +14,12 @@ public partial class LevelData : Resource
     [Export] public int RoundDuration;
     [Export] public int ScoreToWin;
 
-    public int TotalSquaresClicked;
-    public int ScucessfulClicks;
-    public int BadBlockClicks;
-    public int PrizeBoxClicks;
-    public int NormalSquareClicks;
-    public int MissedClicks;
+    [Export] public int TotalSquaresClicked;
+    [Export] public int ScucessfulClicks;
+    [Export] public int BadBlockClicks;
+    [Export] public int PrizeBoxClicks;
+    [Export] public int NormalSquareClicks;
+    [Export] public int MissedClicks;
 
     public LevelData() : this("", "", "", "", "", 0, 0, false) { }
 

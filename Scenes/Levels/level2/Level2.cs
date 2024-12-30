@@ -1,5 +1,5 @@
+using System.Collections.Generic;
 using Godot;
-using System;
 
 public partial class Level2 : Level
 {
@@ -11,6 +11,12 @@ public partial class Level2 : Level
 		SquareTimer.WaitTime = 0.5;
 
 		int totalSpawns = (int)(GetLevelDuration() / SquareTimer.WaitTime);
-		_spawner.PrecalculateSpawns(totalSpawns, 0.5f, 0.25f, 0.25f);
+		var entityInfos = new List<SquareEntityInfo>
+		{
+			new SquareEntityInfo { Type = EntityType.SQUARE, SpawnProbability = 0.5f, Scene = SquareScene},
+			new SquareEntityInfo { Type = EntityType.BAD_BLOCK, SpawnProbability = 0.25f, Scene = BadBlockScene},
+			new SquareEntityInfo { Type = EntityType.PRIZE_BOX, SpawnProbability = 0.25f, Scene = PrizeBoxScene}
+		};
+		_spawner.PrecalculateSpawns(totalSpawns, entityInfos);
 	}
 }

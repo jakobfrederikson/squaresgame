@@ -18,6 +18,8 @@ public partial class LevelCard : Control
 
 	public void Initialize(LevelData levelData, PlayerData playerData)
 	{
+		GD.Print("Level Card Initialise for " + levelData.Name);
+		GD.Print("LevelData null: " + levelData.PathToScene);
 		_levelData = levelData;
 		levelIconTextureRect.Texture =
 			GD.Load<Texture2D>(levelData.TexturePath);
@@ -43,6 +45,13 @@ public partial class LevelCard : Control
 	private void OnPlayButtonPressed()
 	{
 		GD.Print($"Changing scene to file {scenePath}.");
+
+		if (_levelData == null)
+		{
+			GD.PrintErr("LevelData is not initialized!");
+			return;
+		}
+
 		GetTree().ChangeSceneToFile(scenePath);
 	}
 

@@ -1,15 +1,17 @@
-[gd_scene load_steps=5 format=3 uid="uid://cajnofwopupmk"]
+[gd_scene load_steps=6 format=3 uid="uid://cajnofwopupmk"]
 
 [ext_resource type="Script" path="res://Scenes/HUD/Hud.cs" id="1_swiu2"]
 [ext_resource type="Texture2D" uid="uid://bmvitnfrwu5kw" path="res://Assets/hourglass.png" id="1_tfrcj"]
 [ext_resource type="Texture2D" uid="uid://dkb3yd25mup1d" path="res://Assets/points-icon.png" id="2_kp4it"]
 [ext_resource type="Texture2D" uid="uid://dskdbdsttveu3" path="res://Assets/targeted.png" id="4_1t5el"]
+[ext_resource type="Texture2D" uid="uid://c2j0b8ptqefsw" path="res://Assets/token.png" id="5_htj2l"]
 
-[node name="Hud" type="CanvasLayer" node_paths=PackedStringArray("timeLabel", "squaresClickedLabel", "accuracyLabel")]
+[node name="Hud" type="CanvasLayer" node_paths=PackedStringArray("_timeLabel", "_squaresClickedLabel", "_accuracyLabel", "_scoreLabel")]
 script = ExtResource("1_swiu2")
-timeLabel = NodePath("VBoxContainer/HBoxContainer/PanelContainer/GridContainer/HBoxContainer/TimeLabel")
-squaresClickedLabel = NodePath("VBoxContainer/HBoxContainer/PanelContainer/GridContainer/HBoxContainer2/SquaresClickedLabel")
-accuracyLabel = NodePath("VBoxContainer/HBoxContainer/PanelContainer/GridContainer/HBoxContainer3/AccuracyLabel")
+_timeLabel = NodePath("VBoxContainer/HBoxContainer/PanelContainer/GridContainer/HBoxContainer/TimeLabel")
+_squaresClickedLabel = NodePath("VBoxContainer/HBoxContainer/PanelContainer/GridContainer/HBoxContainer2/SquaresClickedLabel")
+_accuracyLabel = NodePath("VBoxContainer/HBoxContainer/PanelContainer/GridContainer/HBoxContainer3/AccuracyLabel")
+_scoreLabel = NodePath("VBoxContainer/HBoxContainer/PanelContainer/GridContainer/HBoxContainer4/ScoreLabel")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
 anchors_preset = 15
@@ -61,7 +63,7 @@ stretch_mode = 5
 
 [node name="SquaresClickedLabel" type="Label" parent="VBoxContainer/HBoxContainer/PanelContainer/GridContainer/HBoxContainer2"]
 layout_mode = 2
-text = "Score"
+text = "Square Clicked / Total Clicks"
 
 [node name="HBoxContainer3" type="HBoxContainer" parent="VBoxContainer/HBoxContainer/PanelContainer/GridContainer"]
 layout_mode = 2
@@ -76,3 +78,17 @@ stretch_mode = 5
 [node name="AccuracyLabel" type="Label" parent="VBoxContainer/HBoxContainer/PanelContainer/GridContainer/HBoxContainer3"]
 layout_mode = 2
 text = "Accuracy"
+
+[node name="HBoxContainer4" type="HBoxContainer" parent="VBoxContainer/HBoxContainer/PanelContainer/GridContainer"]
+layout_mode = 2
+
+[node name="ScoreIcon" type="TextureRect" parent="VBoxContainer/HBoxContainer/PanelContainer/GridContainer/HBoxContainer4"]
+layout_mode = 2
+mouse_filter = 2
+texture = ExtResource("5_htj2l")
+expand_mode = 2
+stretch_mode = 5
+
+[node name="ScoreLabel" type="Label" parent="VBoxContainer/HBoxContainer/PanelContainer/GridContainer/HBoxContainer4"]
+layout_mode = 2
+text = "Score"

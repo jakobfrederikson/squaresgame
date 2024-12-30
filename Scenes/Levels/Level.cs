@@ -20,22 +20,10 @@ public partial class Level : Node2D
     protected PackedScene PrizeBoxScene;
     protected PlayerData PlayerData;
     protected Hud hud;
-    protected int _squaresClicked;
     protected MissedClickHandler _missedClickHandler;
+    protected ClickDataRecorder _clickDataRecorder;
     protected SquareEntitySpawner _spawner;
     protected int _score;
-
-    protected Dictionary<string, int> _squareTypeCounts;
-
-    public Level()
-    {
-        _squareTypeCounts = new Dictionary<string, int>
-        {
-            { "Square", 0 },
-            { "BadBlock", 0 },
-            { "PrizeBox", 0 }
-        };
-    }
 
     public override void _Ready()
     {
@@ -49,12 +37,11 @@ public partial class Level : Node2D
         RoundTimer.Autostart = true;
 
         prt_baseTime = 0;
-        _squaresClicked = 0;
 
         // Load SquareEntity PackedScenes
-        SquareScene = EntityLoader.Get(Entities.SQUARE);
-        BadBlockScene = EntityLoader.Get(Entities.BAD_BLOCK);
-        PrizeBoxScene = EntityLoader.Get(Entities.PRIZE_BOX);
+        SquareScene = EntityLoader.Get(EntityType.SQUARE);
+        BadBlockScene = EntityLoader.Get(EntityType.BAD_BLOCK);
+        PrizeBoxScene = EntityLoader.Get(EntityType.PRIZE_BOX);
 
         // Get PlayerData
         PlayerData = (PlayerData)ResourceDataLoader.Get(ResourcePath.PLAYER_DATA);
@@ -72,36 +59,23 @@ public partial class Level : Node2D
 
         _score = 0;
 
-        // Set these to different values in later levels
-        _spawner = new SquareEntitySpawner(SquareScene, BadBlockScene, PrizeBoxScene, _missedClickHandler, GetViewport().GetVisibleRect(), this);
+        _spawner = new SquareEntitySpawner(SquareScene, BadBlockScene, PrizeBoxScene,
+        _missedClickHandler, GetViewport().GetVisibleRect(), this, seed: 1);
 
-        int totalSpawns = (int)(GetLevelDuration() / SquareTimer.WaitTime);
-        _spawner.PrecalculateSpawns(totalSpawns, 0.5f, 0.25f, 0.25f);
+        _clickDataRecorder = new ClickDataRecorder();
     }
 
-    protected virtual float GetLevelDuration()
-    {
-        return 60.0f;
-    }
-
-    protected void UpdateScore(int amount)
-    {
-        _score += amount;
-        hud.UpdateScore(_score);
-    }
-
-    protected virtual void SpawnSquareEntity()
-    {
-        _spawner.SpawnSquareEntity();
-    }
+    protected virtual float GetLevelDuration() => LevelData.RoundDuration;
+    protected virtual void SpawnSquareEntity() => _spawner.SpawnSquareEntity();
 
     internal virtual void OnSquareClicked(SquareEntity square)
     {
-        UpdateScore(square.ScoreValue);
-        _squaresClicked += 1;
-        _squareTypeCounts[square.GetType().Name] += 1;
+        _clickDataRecorder.RecordSquareEntityClick(square.Type);
+        _score += square.ScoreValue;
 
-        if (_spawner.IsQueueEmpty || _score == LevelData.ScoreToWin)
+        hud.UpdateScore(_score);
+
+        if (_spawner.IsQueueEmpty || _score >= LevelData.ScoreToWin)
         {
             EndLevel();
             GetTree().ChangeSceneToPacked(PackedSceneLoader.Get(ScenePath.LEVEL_OVER_SCENE));
@@ -110,6 +84,7 @@ public partial class Level : Node2D
 
     protected virtual void OnSquareMissClicked()
     {
+        _clickDataRecorder.RecordMissedClick();
         hud.MissClicked();
     }
 
@@ -169,9 +144,10 @@ public partial class Level : Node2D
 
     protected void EndLevel()
     {
-        LevelData.TotalSquaresClicked = _squareTypeCounts["Square"];
-        LevelData.BadBlockClicks = _squareTypeCounts["BadBlock"];
-        LevelData.PrizeBoxClicks = _squareTypeCounts["PrizeBox"];
+        LevelData.TotalSquaresClicked = _clickDataRecorder.SquareEntityClickCount(EntityType.SQUARE);
+        LevelData.BadBlockClicks = _clickDataRecorder.SquareEntityClickCount(EntityType.BAD_BLOCK);
+        LevelData.PrizeBoxClicks = _clickDataRecorder.SquareEntityClickCount(EntityType.PRIZE_BOX);
+        LevelData.MissedClicks = _clickDataRecorder.MissedClickCount;
 
         SaveData.SaveLevelData(LevelData);
         PlayerData.UpdateLevelStats(LevelData);

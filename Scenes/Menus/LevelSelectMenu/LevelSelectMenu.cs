@@ -52,12 +52,13 @@ public partial class LevelSelectMenu : Control
 			// res://Levels/'level1' etc.../
 			string pathToLevelDir = $"{levelsDirPath}{folderName}/";
 			string resourcePath = $"{pathToLevelDir}{folderName}_data.tres";
-			GD.Print($"Resource path: {resourcePath}");
+
 
 			// Load the LevelData resource file for the particular level
 			// res://Levels/'level1' etc.../level1_data.tres
 			var levelData = ResourceLoader.Load<LevelData>(resourcePath);
-			levelData.ResourcePath = resourcePath;
+
+			GD.Print($"{levelData.Name} ResourcePath: {levelData.ResourcePath}");
 
 			if (levelData == null)
 			{

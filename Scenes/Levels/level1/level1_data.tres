@@ -1,4 +1,4 @@
-[gd_resource type="Resource" load_steps=2 format=3 uid="uid://c1t4n31kgmfqg"]
+[gd_resource type="Resource" load_steps=2 format=3]
 
 [ext_resource type="Script" path="res://ResourceBases/LevelData.cs" id="1_x0pbq"]
 
@@ -13,3 +13,9 @@ Cost = 25
 Bought = true
 RoundDuration = 25
 ScoreToWin = 10
+TotalSquaresClicked = 10
+ScucessfulClicks = 0
+BadBlockClicks = 0
+PrizeBoxClicks = 0
+NormalSquareClicks = 0
+MissedClicks = 0

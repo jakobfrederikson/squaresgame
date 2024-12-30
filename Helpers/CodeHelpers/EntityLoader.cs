@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using Godot;
 
-public enum Entities
+public enum EntityType
 {
     SQUARE,
     BAD_BLOCK,
@@ -14,14 +14,14 @@ public enum Entities
 /// </summary>
 public partial class EntityLoader
 {
-    private static readonly Dictionary<Entities, string> EntityPathMaps = new()
+    private static readonly Dictionary<EntityType, string> EntityPathMaps = new()
     {
-        { Entities.SQUARE, "res://Scenes/Entities/Square/Square.tscn" },
-        { Entities.BAD_BLOCK, "res://Scenes/Entities/BadBlock/BadBlock.tscn" },
-        { Entities.PRIZE_BOX, "res://Scenes/Entities/PrizeBox/PrizeBox.tscn" }
+        { EntityType.SQUARE, "res://Scenes/Entities/Square/Square.tscn" },
+        { EntityType.BAD_BLOCK, "res://Scenes/Entities/BadBlock/BadBlock.tscn" },
+        { EntityType.PRIZE_BOX, "res://Scenes/Entities/PrizeBox/PrizeBox.tscn" }
     };
 
-    public static PackedScene Get(Entities entityPath)
+    public static PackedScene Get(EntityType entityPath)
     {
         if (EntityPathMaps.TryGetValue(entityPath, out var path))
         {

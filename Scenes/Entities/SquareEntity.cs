@@ -18,6 +18,7 @@ public partial class SquareEntity : Node2D
     private Tween _tween;
 
     public virtual int ScoreValue => 1;
+    public EntityType Type { get; set; }
 
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()

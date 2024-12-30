@@ -1,11 +1,13 @@
 using Godot;
 using System;
+using System.Collections.Generic;
 
 public partial class StartMenu : Control
 {
 	public override void _Ready()
 	{
 		base._Ready();
+		GD.Print();
 	}
 
 	public void OnLevelSelectButtonPressed()

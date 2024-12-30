@@ -1,4 +1,4 @@
-[gd_resource type="Resource" load_steps=2 format=3 uid="uid://dsvwfa1ikp0ob"]
+[gd_resource type="Resource" load_steps=2 format=3]
 
 [ext_resource type="Script" path="res://ResourceBases/LevelData.cs" id="1_cvosw"]
 
@@ -13,3 +13,9 @@ Cost = 45
 Bought = true
 RoundDuration = 30
 ScoreToWin = 20
+TotalSquaresClicked = 8
+ScucessfulClicks = 0
+BadBlockClicks = 0
+PrizeBoxClicks = 6
+NormalSquareClicks = 0
+MissedClicks = 0
