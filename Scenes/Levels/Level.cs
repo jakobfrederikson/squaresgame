@@ -17,9 +17,7 @@ public partial class Level : Node2D
 
     protected PackedScene SquareScene;
     protected int squareSpawnCount;
-
     protected PackedScene BadBlockScene;
-
     protected PackedScene PrizeBoxScene;
 
     protected PlayerData PlayerData;
@@ -27,6 +25,8 @@ public partial class Level : Node2D
 
     protected int _squaresClicked;
     protected MissedClickHandler _missedClickHandler;
+
+    protected int _score;
 
     public override void _Ready()
     {
@@ -59,6 +59,14 @@ public partial class Level : Node2D
         AddChild(_missedClickHandler);
 
         CreateBackButton();
+
+        _score = 0;
+    }
+
+    protected void UpdateScore(int amount)
+    {
+        _score += amount;
+        hud.UpdateScore(_score);
     }
 
     /// <summary>
@@ -84,10 +92,25 @@ public partial class Level : Node2D
         square.Position = new Godot.Vector2(x, y);
     }
 
-    protected virtual void OnSquareClicked()
+    protected virtual void OnSquareClicked(SquareEntity square)
     {
+        int scoreToUpdate = 0;
+
+        if (square is BadBlock)
+        {
+            scoreToUpdate = -2;
+        }
+        else if (square is PrizeBox)
+        {
+            scoreToUpdate = 2;
+        }
+        else
+        {
+            scoreToUpdate = 1;
+        }
+
+        UpdateScore(scoreToUpdate);
         _squaresClicked += 1;
-        hud.SquareClicked();
     }
 
     protected virtual void OnSquareMissClicked()

@@ -3,7 +3,7 @@ using Godot;
 public partial class SquareEntity : Node2D
 {
     [Signal]
-    public delegate void ClickedEventHandler();
+    public delegate void ClickedEventHandler(SquareEntity square);
 
     [Signal]
     public delegate void MouseEnteredEventHandler();
@@ -51,7 +51,7 @@ public partial class SquareEntity : Node2D
     {
         if (@event.IsActionPressed("left_mouse_click") && _mouseInSquare)
         {
-            EmitSignal(SignalName.Clicked);
+            EmitSignal(SignalName.Clicked, this);
             Despawn();
         }
     }
