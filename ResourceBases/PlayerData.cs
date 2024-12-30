@@ -40,6 +40,16 @@ public sealed partial class PlayerData : Resource
 		this.Points -= points;
 	}
 
+	public void UpdateLevelStats(LevelData levelData)
+	{
+		TotalSquaresManuallyClicked += levelData.TotalSquaresClicked;
+		TotalClickOnSquareAccuracy += levelData.ScucessfulClicks;
+
+		ClickOnSquareAccuracyByLevel[levelData.Name] = levelData.ScucessfulClicks;
+
+		SaveData.SavePlayerData(this);
+	}
+
 	public void ResetStats()
 	{
 		TotalPoints = 0;

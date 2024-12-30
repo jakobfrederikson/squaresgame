@@ -14,23 +14,33 @@ public partial class Level : Node2D
     [Export] protected Timer RoundTimer;
     protected int prt_baseTime; // protected baseTime
     [Export] protected LevelData LevelData;
-
     protected PackedScene SquareScene;
     protected int squareSpawnCount;
     protected PackedScene BadBlockScene;
     protected PackedScene PrizeBoxScene;
-
     protected PlayerData PlayerData;
     protected Hud hud;
-
     protected int _squaresClicked;
     protected MissedClickHandler _missedClickHandler;
-
+    protected SquareEntitySpawner _spawner;
     protected int _score;
+
+    protected Dictionary<string, int> _squareTypeCounts;
+
+    public Level()
+    {
+        _squareTypeCounts = new Dictionary<string, int>
+        {
+            { "Square", 0 },
+            { "BadBlock", 0 },
+            { "PrizeBox", 0 }
+        };
+    }
 
     public override void _Ready()
     {
         GD.Print("Hello from base level class.");
+        GD.Print(LevelData);
 
         SquareTimer.Timeout += SpawnSquareEntity;
         SquareTimer.Autostart = true;
@@ -61,6 +71,17 @@ public partial class Level : Node2D
         CreateBackButton();
 
         _score = 0;
+
+        // Set these to different values in later levels
+        _spawner = new SquareEntitySpawner(SquareScene, BadBlockScene, PrizeBoxScene, _missedClickHandler, GetViewport().GetVisibleRect(), this);
+
+        int totalSpawns = (int)(GetLevelDuration() / SquareTimer.WaitTime);
+        _spawner.PrecalculateSpawns(totalSpawns, 0.5f, 0.25f, 0.25f);
+    }
+
+    protected virtual float GetLevelDuration()
+    {
+        return 60.0f;
     }
 
     protected void UpdateScore(int amount)
@@ -69,48 +90,22 @@ public partial class Level : Node2D
         hud.UpdateScore(_score);
     }
 
-    /// <summary>
-    /// Base SpawnSquareEntity method that instantiates 
-    /// a square and sets it position to be randomly around the viewport.
-    /// </summary>
     protected virtual void SpawnSquareEntity()
     {
-        var square = SquareScene.Instantiate<Square>();
-        AddChild(square);
-
-        _missedClickHandler.RegisterSquareEntity(square);
-        square.Clicked += OnSquareClicked;
-
-        squareSpawnCount++;
-
-        var viewportRect = GetViewport().GetVisibleRect();
-
-        var rng = new RandomNumberGenerator();
-        float x = rng.RandfRange(viewportRect.Position.X + square.Size().X / 2, viewportRect.Position.X + viewportRect.Size.X - square.Size().X / 2);
-        float y = rng.RandfRange(viewportRect.Position.Y + square.Size().Y / 2, viewportRect.Position.Y + viewportRect.Size.Y - square.Size().Y / 2);
-
-        square.Position = new Godot.Vector2(x, y);
+        _spawner.SpawnSquareEntity();
     }
 
-    protected virtual void OnSquareClicked(SquareEntity square)
+    internal virtual void OnSquareClicked(SquareEntity square)
     {
-        int scoreToUpdate = 0;
-
-        if (square is BadBlock)
-        {
-            scoreToUpdate = -2;
-        }
-        else if (square is PrizeBox)
-        {
-            scoreToUpdate = 2;
-        }
-        else
-        {
-            scoreToUpdate = 1;
-        }
-
-        UpdateScore(scoreToUpdate);
+        UpdateScore(square.ScoreValue);
         _squaresClicked += 1;
+        _squareTypeCounts[square.GetType().Name] += 1;
+
+        if (_spawner.IsQueueEmpty || _score == LevelData.ScoreToWin)
+        {
+            EndLevel();
+            GetTree().ChangeSceneToPacked(PackedSceneLoader.Get(ScenePath.LEVEL_OVER_SCENE));
+        }
     }
 
     protected virtual void OnSquareMissClicked()
@@ -170,5 +165,15 @@ public partial class Level : Node2D
     {
         PackedScene scene = PackedSceneLoader.Get(ScenePath.START_MENU);
         GetTree().ChangeSceneToPacked(scene);
+    }
+
+    protected void EndLevel()
+    {
+        LevelData.TotalSquaresClicked = _squareTypeCounts["Square"];
+        LevelData.BadBlockClicks = _squareTypeCounts["BadBlock"];
+        LevelData.PrizeBoxClicks = _squareTypeCounts["PrizeBox"];
+
+        SaveData.SaveLevelData(LevelData);
+        PlayerData.UpdateLevelStats(LevelData);
     }
 }

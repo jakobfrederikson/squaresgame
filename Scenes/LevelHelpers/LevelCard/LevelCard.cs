@@ -25,8 +25,8 @@ public partial class LevelCard : Control
 		if (_playerData != null) GD.Print("_playerData successfully loaded.");
 		levelTitleLabel.Text = levelData.Name;
 		levelDescriptionLabel.Text = levelData.Description;
-		levelDurationLabel.Text = "Time: " + Convert.ToString(levelData.Duration);
-		levelPointsLabel.Text = Convert.ToString(levelData.PointsToWin);
+		levelDurationLabel.Text = "Time: " + Convert.ToString(levelData.RoundDuration);
+		levelPointsLabel.Text = Convert.ToString(levelData.ScoreToWin);
 
 		if (levelData.Bought == true)
 		{

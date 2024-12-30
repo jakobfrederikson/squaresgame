@@ -9,22 +9,7 @@ public partial class Level1 : Level
 
 		SquareTimer.WaitTime = 1;
 
-		Initialize();
-	}
-
-	public override void _Process(double delta)
-	{
-		CheckGameEnd();
-	}
-
-	public void Initialize()
-	{
-
-	}
-
-	private void CheckGameEnd()
-	{
-		if (_squaresClicked == 10)
-			GetTree().ChangeSceneToPacked(PackedSceneLoader.Get(ScenePath.LEVEL_OVER_SCENE));
+		int totalSpawns = (int)(GetLevelDuration() / SquareTimer.WaitTime);
+		_spawner.PrecalculateSpawns(totalSpawns, 1.0f, 0.0f, 0.0f);
 	}
 }

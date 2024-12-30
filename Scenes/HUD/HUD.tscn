@@ -33,7 +33,7 @@ layout_mode = 2
 size_flags_horizontal = 4
 mouse_filter = 2
 theme_override_constants/h_separation = 45
-columns = 3
+columns = 4
 
 [node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/HBoxContainer/PanelContainer/GridContainer"]
 layout_mode = 2

@@ -17,6 +17,8 @@ public partial class SquareEntity : Node2D
     private Timer _despawnTimer;
     private Tween _tween;
 
+    public virtual int ScoreValue => 1;
+
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
     {

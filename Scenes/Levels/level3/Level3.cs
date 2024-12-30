@@ -9,16 +9,8 @@ public partial class Level3 : Level
 		GD.Print("Hello Level 3");
 
 		SquareTimer.WaitTime = 0.25;
-	}
 
-	public override void _Process(double delta)
-	{
-		CheckGameEnd();
-	}
-
-	private void CheckGameEnd()
-	{
-		if (_squaresClicked == 50)
-			GetTree().ChangeSceneToPacked(PackedSceneLoader.Get(ScenePath.LEVEL_OVER_SCENE));
+		int totalSpawns = (int)(GetLevelDuration() / SquareTimer.WaitTime);
+		_spawner.PrecalculateSpawns(totalSpawns, 0.3f, 0.2f, 0.5f);
 	}
 }
