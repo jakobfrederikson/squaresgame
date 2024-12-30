@@ -1,0 +1,15 @@
+[gd_resource type="Resource" load_steps=2 format=3 uid="uid://c1t4n31kgmfqg"]
+
+[ext_resource type="Script" path="res://ResourceBases/LevelData.cs" id="1_x0pbq"]
+
+[resource]
+script = ExtResource("1_x0pbq")
+TexturePath = "res://Assets/level_1_icon.png"
+PathToScene = "res://Scenes/Levels/level1/level1.tscn"
+PathToResource = "res://Scenes/Levels/level1/level1_data.tres"
+Name = "Level Juan"
+Description = "Awesome Level"
+Duration = 50
+PointsToWin = 111
+Cost = 25
+Bought = true

@@ -1,0 +1,15 @@
+[gd_resource type="Resource" load_steps=2 format=3 uid="uid://ba4j6vqvwipvq"]
+
+[ext_resource type="Script" path="res://ResourceBases/LevelData.cs" id="1_ncccd"]
+
+[resource]
+script = ExtResource("1_ncccd")
+TexturePath = "res://Assets/level_3_icon.png"
+PathToScene = "res://Scenes/Levels/level3/level3.tscn"
+PathToResource = "res://Scenes/Levels/level3/level3_data.tres"
+Name = "Level 3"
+Description = "asdfad"
+Duration = 66
+PointsToWin = 333
+Cost = 788
+Bought = true

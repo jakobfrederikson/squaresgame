@@ -1,0 +1,22 @@
+[gd_scene load_steps=2 format=3 uid="uid://bkucehjh5gix5"]
+
+[ext_resource type="Script" path="res://Scenes/Levels/level2/Level2.cs" id="1_0ojpb"]
+
+[node name="Level2" type="Node2D" node_paths=PackedStringArray("SquareTimer", "RoundTimer")]
+script = ExtResource("1_0ojpb")
+SquareTimer = NodePath("SquareTimer")
+RoundTimer = NodePath("RoundTimer")
+
+[node name="Label" type="Label" parent="."]
+offset_left = 738.0
+offset_top = 313.0
+offset_right = 792.0
+offset_bottom = 336.0
+text = "Level 2
+"
+
+[node name="SquareTimer" type="Timer" parent="."]
+autostart = true
+
+[node name="RoundTimer" type="Timer" parent="."]
+autostart = true

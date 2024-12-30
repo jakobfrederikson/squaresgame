@@ -1,0 +1,172 @@
+[gd_scene load_steps=3 format=3 uid="uid://enln6g2j38l"]
+
+[ext_resource type="Script" path="res://Scenes/Menus/StatsMenu/StatsMenu.cs" id="1_42dys"]
+[ext_resource type="Resource" uid="uid://cfrty74312lvm" path="res://Resources/PlayerData/PlayerData.tres" id="2_6a7xe"]
+
+[node name="StatsMenu" type="Control" node_paths=PackedStringArray("mainMenuButton", "resetStatsButton", "givePointsButton", "PointsLabel", "TotalPointsLabel", "UpgradesGridContainer", "SquaresClickedLabel", "UprgSquaresClickedLabel", "AccuracyLabel", "AccuracyByLevelContainer")]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_42dys")
+mainMenuButton = NodePath("VBoxContainer/MainMenuButton")
+resetStatsButton = NodePath("VBoxContainer/ResetStatsButton")
+givePointsButton = NodePath("VBoxContainer/GivePointsButton")
+playerData = ExtResource("2_6a7xe")
+PointsLabel = NodePath("VBoxContainer/VBoxContainer/PointsPanelContainer/HBoxContainer/StatDataLabel")
+TotalPointsLabel = NodePath("VBoxContainer/VBoxContainer/TotalPointsPanelContainer2/HBoxContainer/StatDataLabel")
+UpgradesGridContainer = NodePath("VBoxContainer/VBoxContainer/UpgradesPanelContainer/VBoxContainer/UpgradesGridContainer")
+SquaresClickedLabel = NodePath("VBoxContainer/VBoxContainer/TotalSquaresClickedPanelContainer/HBoxContainer/StatDataLabel")
+UprgSquaresClickedLabel = NodePath("VBoxContainer/VBoxContainer/UpgSqrsClickedPanelContainer/HBoxContainer/StatDataLabel")
+AccuracyLabel = NodePath("VBoxContainer/VBoxContainer/TotalAccuracyPanelContainer/HBoxContainer/StatDataLabel")
+AccuracyByLevelContainer = NodePath("VBoxContainer/VBoxContainer/AccuracyByLevelPanelContainer/VBoxContainer")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -118.0
+offset_right = 118.0
+offset_bottom = 58.0
+grow_horizontal = 2
+
+[node name="MenuTitle" type="Label" parent="VBoxContainer"]
+layout_mode = 2
+text = "Your Stats"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="PointsPanelContainer" type="PanelContainer" parent="VBoxContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/VBoxContainer/PointsPanelContainer"]
+layout_mode = 2
+
+[node name="StatLabel" type="Label" parent="VBoxContainer/VBoxContainer/PointsPanelContainer/HBoxContainer"]
+layout_mode = 2
+text = "Current Points"
+
+[node name="AspectRatioContainer" type="AspectRatioContainer" parent="VBoxContainer/VBoxContainer/PointsPanelContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="StatDataLabel" type="Label" parent="VBoxContainer/VBoxContainer/PointsPanelContainer/HBoxContainer"]
+layout_mode = 2
+text = "0"
+
+[node name="TotalPointsPanelContainer2" type="PanelContainer" parent="VBoxContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/VBoxContainer/TotalPointsPanelContainer2"]
+layout_mode = 2
+
+[node name="StatLabel" type="Label" parent="VBoxContainer/VBoxContainer/TotalPointsPanelContainer2/HBoxContainer"]
+layout_mode = 2
+text = "Total Points Earned"
+
+[node name="AspectRatioContainer" type="AspectRatioContainer" parent="VBoxContainer/VBoxContainer/TotalPointsPanelContainer2/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="StatDataLabel" type="Label" parent="VBoxContainer/VBoxContainer/TotalPointsPanelContainer2/HBoxContainer"]
+layout_mode = 2
+text = "0"
+
+[node name="UpgradesPanelContainer" type="PanelContainer" parent="VBoxContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/VBoxContainer/UpgradesPanelContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="UpgradesLabel" type="Label" parent="VBoxContainer/VBoxContainer/UpgradesPanelContainer/VBoxContainer"]
+layout_mode = 2
+text = "Upgrades"
+
+[node name="UpgradesGridContainer" type="GridContainer" parent="VBoxContainer/VBoxContainer/UpgradesPanelContainer/VBoxContainer"]
+layout_mode = 2
+columns = 3
+
+[node name="TotalSquaresClickedPanelContainer" type="PanelContainer" parent="VBoxContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/VBoxContainer/TotalSquaresClickedPanelContainer"]
+layout_mode = 2
+
+[node name="StatLabel" type="Label" parent="VBoxContainer/VBoxContainer/TotalSquaresClickedPanelContainer/HBoxContainer"]
+layout_mode = 2
+text = "Total Squares Clicked"
+
+[node name="AspectRatioContainer" type="AspectRatioContainer" parent="VBoxContainer/VBoxContainer/TotalSquaresClickedPanelContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="StatDataLabel" type="Label" parent="VBoxContainer/VBoxContainer/TotalSquaresClickedPanelContainer/HBoxContainer"]
+layout_mode = 2
+text = "0"
+
+[node name="UpgSqrsClickedPanelContainer" type="PanelContainer" parent="VBoxContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/VBoxContainer/UpgSqrsClickedPanelContainer"]
+layout_mode = 2
+
+[node name="StatLabel" type="Label" parent="VBoxContainer/VBoxContainer/UpgSqrsClickedPanelContainer/HBoxContainer"]
+layout_mode = 2
+text = "Squares Clicked via Upgrade"
+
+[node name="GapSpacer" type="Control" parent="VBoxContainer/VBoxContainer/UpgSqrsClickedPanelContainer/HBoxContainer"]
+custom_minimum_size = Vector2(138.615, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="StatDataLabel" type="Label" parent="VBoxContainer/VBoxContainer/UpgSqrsClickedPanelContainer/HBoxContainer"]
+layout_mode = 2
+text = "0"
+
+[node name="TotalAccuracyPanelContainer" type="PanelContainer" parent="VBoxContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/VBoxContainer/TotalAccuracyPanelContainer"]
+layout_mode = 2
+
+[node name="StatLabel" type="Label" parent="VBoxContainer/VBoxContainer/TotalAccuracyPanelContainer/HBoxContainer"]
+layout_mode = 2
+text = "Total Accuracy"
+
+[node name="AspectRatioContainer" type="AspectRatioContainer" parent="VBoxContainer/VBoxContainer/TotalAccuracyPanelContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="StatDataLabel" type="Label" parent="VBoxContainer/VBoxContainer/TotalAccuracyPanelContainer/HBoxContainer"]
+layout_mode = 2
+text = "0"
+
+[node name="AccuracyByLevelPanelContainer" type="PanelContainer" parent="VBoxContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/VBoxContainer/AccuracyByLevelPanelContainer"]
+layout_mode = 2
+
+[node name="StatLabel" type="Label" parent="VBoxContainer/VBoxContainer/AccuracyByLevelPanelContainer/VBoxContainer"]
+layout_mode = 2
+text = "Accuracy By Level"
+
+[node name="GivePointsButton" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+text = "Give +500 Points"
+
+[node name="ResetStatsButton" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+text = "Reset Stats"
+
+[node name="MainMenuButton" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+text = "Back to main menu"

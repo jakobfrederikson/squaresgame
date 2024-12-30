@@ -1,0 +1,18 @@
+[gd_resource type="Resource" load_steps=4 format=3 uid="uid://cfrty74312lvm"]
+
+[ext_resource type="Script" path="res://ResourceBases/PlayerData.cs" id="1_7ayl4"]
+[ext_resource type="Resource" uid="uid://dmleftrop1a68" path="res://Resources/UpgradeData/AutoClickUpgrade.tres" id="1_mlhjy"]
+[ext_resource type="Resource" path="res://Resources/UpgradeData/UpgradeTest.tres" id="2_wpchx"]
+
+[resource]
+script = ExtResource("1_7ayl4")
+TotalPoints = 2500
+Points = 17
+Upgrades = [ExtResource("1_mlhjy"), ExtResource("2_wpchx")]
+TotalSquaresManuallyClicked = 0
+TotalSquaresClickedByUpgrade = 0
+TotalClickOnSquareAccuracy = 0
+ClickOnSquareAccuracyByLevel = {
+"Level 1": 83.35,
+"Level 2": 64.26
+}

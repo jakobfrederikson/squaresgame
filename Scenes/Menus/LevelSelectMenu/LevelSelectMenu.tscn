@@ -1,0 +1,47 @@
+[gd_scene load_steps=3 format=3 uid="uid://dndvah6wgk5b"]
+
+[ext_resource type="Script" path="res://Scenes/Menus/LevelSelectMenu/LevelSelectMenu.cs" id="1_iloaw"]
+[ext_resource type="PackedScene" uid="uid://ct2p1tglelbux" path="res://Scenes/LevelHelpers/LevelCard/LevelCard.tscn" id="2_qrs38"]
+
+[node name="LevelSelectMenu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_iloaw")
+levelCardContainerPath = NodePath("VBoxContainer/ScrollContainer/LevelCardGridContainer")
+levelCardScene = ExtResource("2_qrs38")
+levelsDirPath = "res://Scenes/Levels"
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 13
+anchor_left = 0.5
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -45.5
+offset_right = 45.5
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MenuTitleLabel" type="Label" parent="VBoxContainer"]
+layout_mode = 2
+text = "Level Select"
+horizontal_alignment = 1
+
+[node name="ScrollContainer" type="ScrollContainer" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+horizontal_scroll_mode = 0
+
+[node name="LevelCardGridContainer" type="GridContainer" parent="VBoxContainer/ScrollContainer"]
+layout_mode = 2
+
+[node name="StartMenuButton" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+text = "Back to main menu
+"
+
+[connection signal="pressed" from="VBoxContainer/StartMenuButton" to="." method="OnStartMenuButtonPressed"]

@@ -1,0 +1,43 @@
+[gd_scene load_steps=2 format=3 uid="uid://cqw6kawfd4t3p"]
+
+[ext_resource type="Script" path="res://Scenes/LevelHelpers/LevelOver/LevelOverScene.cs" id="1_kbbpq"]
+
+[node name="LevelOverScene" type="Control" node_paths=PackedStringArray("_mainMenuButton")]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+script = ExtResource("1_kbbpq")
+_mainMenuButton = NodePath("PanelContainer/VBoxContainer/Button")
+
+[node name="PanelContainer" type="PanelContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="TitleLabel" type="Label" parent="PanelContainer/VBoxContainer"]
+layout_mode = 2
+text = "Round Over"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Label" type="Label" parent="PanelContainer/VBoxContainer"]
+layout_mode = 2
+text = "You scored enough points."
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Button" type="Button" parent="PanelContainer/VBoxContainer"]
+layout_mode = 2
+text = "Back to main menu"

@@ -1,0 +1,15 @@
+[gd_resource type="Resource" load_steps=2 format=3 uid="uid://dsvwfa1ikp0ob"]
+
+[ext_resource type="Script" path="res://ResourceBases/LevelData.cs" id="1_cvosw"]
+
+[resource]
+script = ExtResource("1_cvosw")
+TexturePath = "res://Assets/level_2_icon.png"
+PathToScene = "res://Scenes/Levels/level2/level2.tscn"
+PathToResource = "res://Scenes/Levels/level2/level2_data.tres"
+Name = "Level 2"
+Description = "second level"
+Duration = 25
+PointsToWin = 222
+Cost = 45
+Bought = true

@@ -1,0 +1,28 @@
+[gd_scene load_steps=2 format=3 uid="uid://c6o1h8lmle0e4"]
+
+[ext_resource type="Script" path="res://Scenes/Levels/level3/Level3.cs" id="1_clkhk"]
+
+[node name="Level3" type="Node2D" node_paths=PackedStringArray("SquareTimer", "RoundTimer")]
+script = ExtResource("1_clkhk")
+SquareTimer = NodePath("SquareTimer")
+RoundTimer = NodePath("RoundTimer")
+
+[node name="Label" type="Label" parent="."]
+anchors_preset = 13
+anchor_left = 0.5
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = 308.0
+offset_top = 115.0
+offset_right = 362.0
+offset_bottom = 138.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Level 3
+"
+
+[node name="SquareTimer" type="Timer" parent="."]
+autostart = true
+
+[node name="RoundTimer" type="Timer" parent="."]
+autostart = true
