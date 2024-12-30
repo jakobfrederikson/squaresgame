@@ -1,4 +1,4 @@
-[gd_resource type="Resource" load_steps=2 format=3]
+[gd_resource type="Resource" load_steps=2 format=3 uid="uid://bd83uidx4ikpn"]
 
 [ext_resource type="Script" path="res://ResourceBases/LevelData.cs" id="1_ncccd"]
 
@@ -13,9 +13,7 @@ Cost = 788
 Bought = true
 RoundDuration = 60
 ScoreToWin = 50
-TotalSquaresClicked = 13
-ScucessfulClicks = 0
+NormalSquareClicks = 0
 BadBlockClicks = 2
 PrizeBoxClicks = 21
-NormalSquareClicks = 0
 MissedClicks = 0

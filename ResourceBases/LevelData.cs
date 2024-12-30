@@ -13,13 +13,13 @@ public partial class LevelData : Resource
     [Export] public bool Bought = false;
     [Export] public int RoundDuration;
     [Export] public int ScoreToWin;
-
-    [Export] public int TotalSquaresClicked;
-    [Export] public int ScucessfulClicks;
+    [Export] public int NormalSquareClicks;
     [Export] public int BadBlockClicks;
     [Export] public int PrizeBoxClicks;
-    [Export] public int NormalSquareClicks;
     [Export] public int MissedClicks;
+
+    public int TotalSquaresClicked => NormalSquareClicks + PrizeBoxClicks + BadBlockClicks;
+    public int ScucessfulClicks => NormalSquareClicks + PrizeBoxClicks;
 
     public LevelData() : this("", "", "", "", "", 0, 0, false) { }
 
@@ -36,8 +36,6 @@ public partial class LevelData : Resource
         Cost = cost;
         Bought = bought;
 
-        TotalSquaresClicked = 0;
-        ScucessfulClicks = 0;
         BadBlockClicks = 0;
         PrizeBoxClicks = 0;
         NormalSquareClicks = 0;

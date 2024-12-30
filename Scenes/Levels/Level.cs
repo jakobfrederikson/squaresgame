@@ -144,7 +144,7 @@ public partial class Level : Node2D
 
     protected void EndLevel()
     {
-        LevelData.TotalSquaresClicked = _clickDataRecorder.SquareEntityClickCount(EntityType.SQUARE);
+        LevelData.NormalSquareClicks = _clickDataRecorder.SquareEntityClickCount(EntityType.SQUARE);
         LevelData.BadBlockClicks = _clickDataRecorder.SquareEntityClickCount(EntityType.BAD_BLOCK);
         LevelData.PrizeBoxClicks = _clickDataRecorder.SquareEntityClickCount(EntityType.PRIZE_BOX);
         LevelData.MissedClicks = _clickDataRecorder.MissedClickCount;

@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://r7guahuajm5q"]
 
 [ext_resource type="Script" path="res://Scenes/Levels/level1/Level1.cs" id="1_ff0sf"]
-[ext_resource type="Resource" path="res://Scenes/Levels/level1/level1_data.tres" id="2_c0n55"]
+[ext_resource type="Resource" uid="uid://q5fjutfblv8d" path="res://Scenes/Levels/level1/level1_data.tres" id="2_c0n55"]
 
 [node name="Level1" type="Node2D" node_paths=PackedStringArray("SquareTimer", "RoundTimer")]
 script = ExtResource("1_ff0sf")

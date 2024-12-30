@@ -19,7 +19,12 @@ public class ClickDataRecorder
 
     public ClickDataRecorder()
     {
-        _squareEntityClickCounts = new Godot.Collections.Dictionary<EntityType, int>();
+        _squareEntityClickCounts = new Godot.Collections.Dictionary<EntityType, int>
+        {
+            {EntityType.SQUARE, 0},
+            {EntityType.BAD_BLOCK, 0},
+            {EntityType.PRIZE_BOX, 0},
+        };
         _missedClickCount = 0;
     }
 
