@@ -157,6 +157,7 @@ public partial class Level : Node2D
         RoundEndData.Instance.LevelOverType = levelOverType;
         RoundEndData.Instance.Score = _score;
         RoundEndData.Instance.TotalPoints = PlayerData.TotalPoints;
+        RoundEndData.Instance.TotalClicks = LevelData.TotalClicks;
         RoundEndData.Instance.TotalSquaresClicked = LevelData.TotalSquaresClicked;
         RoundEndData.Instance.NormalSquareClicks = LevelData.NormalSquareClicks;
         RoundEndData.Instance.PrizeBoxClicks = LevelData.PrizeBoxClicks;

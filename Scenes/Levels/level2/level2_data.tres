@@ -1,4 +1,4 @@
-[gd_resource type="Resource" load_steps=2 format=3 uid="uid://b5gc0w0xthdq"]
+[gd_resource type="Resource" load_steps=2 format=3]
 
 [ext_resource type="Script" path="res://ResourceBases/LevelData.cs" id="1_cvosw"]
 
@@ -11,9 +11,14 @@ Name = "Level 2"
 Description = "second level"
 Cost = 45
 Bought = true
+PointsPerWin = false
 RoundDuration = 30
 ScoreToWin = 20
+TotalClicks = 16
 NormalSquareClicks = 10
 BadBlockClicks = 0
 PrizeBoxClicks = 5
-MissedClicks = 0
+MissedClicks = 1
+PointsMultiplierPerWin = 1.0
+Score = 20
+TimeTakenToFinishLevel = 11.0

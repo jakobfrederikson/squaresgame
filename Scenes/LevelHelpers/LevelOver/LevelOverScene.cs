@@ -34,6 +34,14 @@ public partial class LevelOverScene : Control
 	private void Initialise()
 	{
 		SetRoundOverMessage();
+		_scoreLabel.Text = $"{RoundEndData.Instance.Score}";
+		_playerTotalScoreLabel.Text = $"{RoundEndData.Instance.TotalPoints}";
+		_totalLevelClicksLabel.Text = $"{RoundEndData.Instance.TotalClicks}";
+		_normalSquaresClickedLabel.Text = $"{RoundEndData.Instance.NormalSquareClicks}";
+		_prizeBoxSquaresClickedLabel.Text = $"{RoundEndData.Instance.PrizeBoxClicks}";
+		_badBlockSquaresClickedLabel.Text = $"{RoundEndData.Instance.BadBlockClicks}";
+		_missedClicksLabel.Text = $"{RoundEndData.Instance.MissedClicks}";
+		_roundTimeTakenLabel.Text = $"{RoundEndData.Instance.TimeTakenToFinishLevel}";
 	}
 
 	private void SetRoundOverMessage()

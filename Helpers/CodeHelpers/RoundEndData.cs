@@ -13,6 +13,7 @@ public partial class RoundEndData : Node
     public LevelOverType LevelOverType { get; set; }
     public int Score { get; set; }
     public int TotalPoints { get; set; }
+    public int TotalClicks { get; set; }
     public int TotalSquaresClicked { get; set; }
     public int NormalSquareClicks { get; set; }
     public int PrizeBoxClicks { get; set; }

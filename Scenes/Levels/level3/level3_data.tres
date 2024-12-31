@@ -1,4 +1,4 @@
-[gd_resource type="Resource" load_steps=2 format=3 uid="uid://bd83uidx4ikpn"]
+[gd_resource type="Resource" load_steps=2 format=3]
 
 [ext_resource type="Script" path="res://ResourceBases/LevelData.cs" id="1_ncccd"]
 
@@ -11,9 +11,14 @@ Name = "Level 3"
 Description = "asdfad"
 Cost = 788
 Bought = true
+PointsPerWin = false
 RoundDuration = 60
 ScoreToWin = 50
-NormalSquareClicks = 12
+TotalClicks = 39
+NormalSquareClicks = 14
 BadBlockClicks = 0
-PrizeBoxClicks = 19
+PrizeBoxClicks = 18
 MissedClicks = 7
+PointsMultiplierPerWin = 1.0
+Score = 50
+TimeTakenToFinishLevel = 14.0
