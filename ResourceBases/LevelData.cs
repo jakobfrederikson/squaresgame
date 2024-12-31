@@ -10,36 +10,56 @@ public partial class LevelData : Resource
     [Export] public string Name;
     [Export(PropertyHint.MultilineText)] public string Description;
     [Export] public int Cost;
-    [Export] public bool Bought = false;
+    [Export] public bool Bought;
+    [Export] public bool PointsPerWin;
     [Export] public int RoundDuration;
     [Export] public int ScoreToWin;
+    [Export] public int TotalClicks;
     [Export] public int NormalSquareClicks;
     [Export] public int BadBlockClicks;
     [Export] public int PrizeBoxClicks;
     [Export] public int MissedClicks;
+    [Export] public float PointsMultiplierPerWin;
 
     public int TotalSquaresClicked => NormalSquareClicks + PrizeBoxClicks + BadBlockClicks;
-    public int ScucessfulClicks => NormalSquareClicks + PrizeBoxClicks;
+    public int GoodSquareClicks => NormalSquareClicks + PrizeBoxClicks;
 
-    public LevelData() : this("", "", "", "", "", 0, 0, false) { }
+    public LevelData()
+    {
+        InitializeDefaultValues();
+    }
 
-    public LevelData(string texturePath, string pathToScene, string pathToResource,
-                     string name, string description, int scoreToWin,
-                     int cost, bool bought)
+    public LevelData(string texturePath, string pathToScene,
+        string pathToResource, string name, string description,
+        int cost, bool bought, int roundDuration, int scoreToWin,
+        int totalClicks, int normalSquareClicks, int badBlockClicks,
+        int prizeBoxClicks, int missedClicks)
     {
         TexturePath = texturePath;
         PathToScene = pathToScene;
         PathToResource = pathToResource;
         Name = name;
         Description = description;
-        ScoreToWin = scoreToWin;
         Cost = cost;
         Bought = bought;
+        RoundDuration = roundDuration;
+        ScoreToWin = scoreToWin;
+        TotalClicks = totalClicks;
+        NormalSquareClicks = normalSquareClicks;
+        BadBlockClicks = badBlockClicks;
+        PrizeBoxClicks = prizeBoxClicks;
+        MissedClicks = missedClicks;
+    }
 
+    private void InitializeDefaultValues()
+    {
+        Bought = false;
+        TotalClicks = 0;
         BadBlockClicks = 0;
         PrizeBoxClicks = 0;
         NormalSquareClicks = 0;
         MissedClicks = 0;
         RoundDuration = 0;
+        PointsMultiplierPerWin = 1.0f;
     }
 }

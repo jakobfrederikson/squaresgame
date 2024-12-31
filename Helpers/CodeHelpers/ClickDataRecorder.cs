@@ -4,8 +4,10 @@ public class ClickDataRecorder
 {
     private Godot.Collections.Dictionary<EntityType, int> _squareEntityClickCounts;
     private int _missedClickCount;
+    private int _totalClicks;
 
     public int MissedClickCount => _missedClickCount;
+    public int TotalClicks => _totalClicks;
     public int SquareEntityClickCount(EntityType type)
     {
         return type switch
@@ -26,9 +28,19 @@ public class ClickDataRecorder
             {EntityType.PRIZE_BOX, 0},
         };
         _missedClickCount = 0;
+        _totalClicks = 0;
     }
 
-    public void RecordSquareEntityClick(EntityType type) =>
+    public void RecordSquareEntityClick(EntityType type)
+    {
         _squareEntityClickCounts[type]++;
-    public void RecordMissedClick() => _missedClickCount++;
+        RecordClick();
+    }
+
+    public void RecordMissedClick()
+    {
+        _missedClickCount++;
+        RecordClick();
+    }
+    public void RecordClick() => _totalClicks++;
 }

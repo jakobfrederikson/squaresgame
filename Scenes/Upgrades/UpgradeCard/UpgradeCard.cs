@@ -24,7 +24,7 @@ public partial class UpgradeCard : PanelContainer
 		}
 		else
 		{
-			button.Disabled = upgradeData.Cost > playerData.Points;
+			button.Disabled = upgradeData.Cost > playerData.CurrentPoints;
 			if (!button.Disabled)
 			{
 				button.Pressed += BuyUpgrade;
@@ -42,7 +42,7 @@ public partial class UpgradeCard : PanelContainer
 
 	private void BuyUpgrade()
 	{
-		if (playerData.Points >= upgradeData.Cost)
+		if (playerData.CurrentPoints >= upgradeData.Cost)
 		{
 			// Upgrade data stuff
 			upgradeData.IsBought = true;
@@ -54,7 +54,7 @@ public partial class UpgradeCard : PanelContainer
 			playerData.RemovePoints(upgradeData.Cost);
 			playerData.Upgrades.Add(upgradeData);
 
-			GD.Print($"Bought {upgradeData.Name}. Remaining points: {playerData.Points}");
+			GD.Print($"Bought {upgradeData.Name}. Remaining points: {playerData.CurrentPoints}");
 			SaveData.SaveUpgradeData(upgradeData);
 			SaveData.SavePlayerData(playerData);
 		}

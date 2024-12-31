@@ -1,11 +1,17 @@
 using Godot;
 using System;
 
+public enum LevelOverType
+{
+	TimeUp,
+	Won,
+	NoMoreSquares
+}
+
 public partial class LevelOverScene : Control
 {
-
 	[Export] private Button _mainMenuButton;
-	// Called when the node enters the scene tree for the first time.
+
 	public override void _Ready()
 	{
 		_mainMenuButton.Pressed += BackToMainMenu;
@@ -13,4 +19,9 @@ public partial class LevelOverScene : Control
 
 	private void BackToMainMenu() =>
 		GetTree().ChangeSceneToPacked(PackedSceneLoader.Get(ScenePath.LEVEL_SELECT));
+
+	public void SetEndReason(LevelOverType levelOverType)
+	{
+		GD.Print("Level is over because " + levelOverType);
+	}
 }

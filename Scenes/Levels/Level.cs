@@ -15,7 +15,6 @@ public partial class Level : Node2D
     protected int prt_baseTime; // protected baseTime
     [Export] protected LevelData LevelData;
     protected PackedScene SquareScene;
-    protected int squareSpawnCount;
     protected PackedScene BadBlockScene;
     protected PackedScene PrizeBoxScene;
     protected PlayerData PlayerData;
@@ -34,6 +33,7 @@ public partial class Level : Node2D
         SquareTimer.Autostart = true;
 
         RoundTimer.Timeout += UpdateHUDTime;
+        RoundTimer.Timeout += CheckGameEnd;
         RoundTimer.Autostart = true;
 
         prt_baseTime = 0;
@@ -60,7 +60,7 @@ public partial class Level : Node2D
         _score = 0;
 
         _spawner = new SquareEntitySpawner(SquareScene, BadBlockScene, PrizeBoxScene,
-        _missedClickHandler, GetViewport().GetVisibleRect(), this, seed: 1);
+            _missedClickHandler, GetViewport().GetVisibleRect(), this, seed: 1);
 
         _clickDataRecorder = new ClickDataRecorder();
     }
@@ -75,10 +75,9 @@ public partial class Level : Node2D
 
         hud.UpdateScore(_score);
 
-        if (_spawner.IsQueueEmpty || _score >= LevelData.ScoreToWin)
+        if (_score >= LevelData.ScoreToWin)
         {
-            EndLevel();
-            GetTree().ChangeSceneToPacked(PackedSceneLoader.Get(ScenePath.LEVEL_OVER_SCENE));
+            CheckGameEnd();
         }
     }
 
@@ -142,14 +141,39 @@ public partial class Level : Node2D
         GetTree().ChangeSceneToPacked(scene);
     }
 
-    protected void EndLevel()
+    protected void CheckGameEnd()
+    {
+        if (prt_baseTime >= LevelData.RoundDuration) EndLevel(LevelOverType.TimeUp);
+        else if (_score >= LevelData.ScoreToWin) EndLevel(LevelOverType.Won);
+        else if (_spawner.IsQueueEmpty) EndLevel(LevelOverType.NoMoreSquares);
+    }
+
+    protected void EndLevel(LevelOverType levelOverType)
+    {
+        Save();
+        var levelOverScene = PackedSceneLoader.Get(ScenePath.LEVEL_OVER_SCENE);
+        var levelOverInstance = levelOverScene.Instantiate<LevelOverScene>();
+        levelOverInstance.SetEndReason(levelOverType);
+
+        var visibleRect = GetViewport().GetVisibleRect();
+        levelOverInstance.Position = visibleRect.Size / 2 - levelOverInstance.Size / 2;
+
+        var currentScene = GetTree().CurrentScene;
+        GetTree().Root.RemoveChild(currentScene);
+
+        GetTree().Root.AddChild(levelOverInstance);
+        GetTree().CurrentScene = levelOverInstance;
+    }
+
+    protected void Save()
     {
         LevelData.NormalSquareClicks = _clickDataRecorder.SquareEntityClickCount(EntityType.SQUARE);
         LevelData.BadBlockClicks = _clickDataRecorder.SquareEntityClickCount(EntityType.BAD_BLOCK);
         LevelData.PrizeBoxClicks = _clickDataRecorder.SquareEntityClickCount(EntityType.PRIZE_BOX);
         LevelData.MissedClicks = _clickDataRecorder.MissedClickCount;
+        LevelData.TotalClicks = _clickDataRecorder.TotalClicks;
 
-        SaveData.SaveLevelData(LevelData);
         PlayerData.UpdateLevelStats(LevelData);
+        SaveData.SavePlayerAndLevelData(PlayerData, LevelData);
     }
 }

@@ -28,12 +28,12 @@ public partial class StatsMenu : Control
 
 	private void InitialiseStats()
 	{
-		PointsLabel.Text = Convert.ToString(playerData.Points);
+		PointsLabel.Text = Convert.ToString(playerData.CurrentPoints);
 		TotalPointsLabel.Text = Convert.ToString(playerData.TotalPoints);
 		InitialiseUpgrades();
-		SquaresClickedLabel.Text = Convert.ToString(playerData.TotalSquaresManuallyClicked);
-		UprgSquaresClickedLabel.Text = Convert.ToString(playerData.TotalSquaresClickedByUpgrade);
-		AccuracyLabel.Text = Convert.ToString(playerData.TotalClickOnSquareAccuracy);
+		SquaresClickedLabel.Text = Convert.ToString(playerData.LifeTimeSquaresClicked);
+		UprgSquaresClickedLabel.Text = Convert.ToString(playerData.LifeTimeSquaresClickedByUpgrade);
+		AccuracyLabel.Text = Convert.ToString(playerData.LifeTimeOverallAccuracy);
 		InitialiseAccuracyByLevel();
 	}
 
@@ -65,35 +65,7 @@ public partial class StatsMenu : Control
 		}
 	}
 
-	private void InitialiseAccuracyByLevel()
-	{
-		if (playerData.ClickOnSquareAccuracyByLevel.Count == 0)
-		{
-			var noAccuracyLabel = new Label();
-			noAccuracyLabel.Text = "You have not played any levels yet.";
-			AccuracyByLevelContainer.AddChild(noAccuracyLabel);
-			return;
-		}
-
-		foreach (var entry in playerData.ClickOnSquareAccuracyByLevel)
-		{
-			var LevelHBox = new HBoxContainer();
-			var LevelNameLabel = new Label();
-			var GapSpacer = new Control();
-			GapSpacer.SizeFlagsHorizontal = SizeFlags.Expand;
-			var LevelAccuracyLabel = new Label();
-
-			// Populate labels with the level name and accuracy
-			LevelNameLabel.Text = $"Level: {entry.Key}";
-			LevelAccuracyLabel.Text = $"Accuracy: {entry.Value}%";
-
-			// Add the VBoxContainer to the AccuracyGridContainer
-			AccuracyByLevelContainer.AddChild(LevelHBox);
-			LevelHBox.AddChild(LevelNameLabel);
-			LevelHBox.AddChild(GapSpacer);
-			LevelHBox.AddChild(LevelAccuracyLabel);
-		}
-	}
+	private void InitialiseAccuracyByLevel() => throw new ArgumentException("Not yet implemented.");
 
 	public void ResetStatsButtonPressed()
 	{
@@ -115,7 +87,7 @@ public partial class StatsMenu : Control
 	{
 		playerData.GivePoints(500);
 		SaveData.SavePlayerData(playerData);
-		PointsLabel.Text = Convert.ToString(playerData.Points);
+		PointsLabel.Text = Convert.ToString(playerData.CurrentPoints);
 		TotalPointsLabel.Text = Convert.ToString(playerData.TotalPoints);
 	}
 

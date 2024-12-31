@@ -1,4 +1,4 @@
-[gd_resource type="Resource" load_steps=2 format=3 uid="uid://q5fjutfblv8d"]
+[gd_resource type="Resource" load_steps=2 format=3]
 
 [ext_resource type="Script" path="res://ResourceBases/LevelData.cs" id="1_x0pbq"]
 
@@ -11,9 +11,12 @@ Name = "Level Juan"
 Description = "Awesome Level"
 Cost = 25
 Bought = true
+PointsPerWin = false
 RoundDuration = 25
 ScoreToWin = 10
+TotalClicks = 10
 NormalSquareClicks = 10
 BadBlockClicks = 0
 PrizeBoxClicks = 0
-MissedClicks = 8
+MissedClicks = 0
+PointsMultiplierPerWin = 1.0

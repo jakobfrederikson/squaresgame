@@ -6,15 +6,14 @@
 
 [resource]
 script = ExtResource("1_7ayl4")
-TotalPoints = 2500
-Points = 17
+TotalPoints = 0
+CurrentPoints = 0
 Upgrades = [ExtResource("1_mlhjy"), ExtResource("2_wpchx")]
-TotalSquaresManuallyClicked = 245
-TotalSquaresClickedByUpgrade = 0
-TotalClickOnSquareAccuracy = 26
-ClickOnSquareAccuracyByLevel = {
-"Level 1": 83.35,
-"Level 2": 16,
-"Level 3": 0,
-"Level Juan": 10
-}
+LifeTimeClicks = 62
+LifeTimeSquaresClicked = 60
+LifeTimeSquaresManuallyClicked = 0
+LifeTimeSquaresClickedByUpgrade = 0
+LifeTimeGoodSquaresClicked = 60
+LifeTimeBadSquaresClicked = 0
+LifeTimeMissedClicks = 2
+LifeTimeOverallAccuracy = 96.7742

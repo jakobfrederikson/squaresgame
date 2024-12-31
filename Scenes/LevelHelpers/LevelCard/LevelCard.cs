@@ -88,7 +88,7 @@ public partial class LevelCard : Control
 		playLevelButton.Visible = false;
 
 		// Enable Buy Button
-		if (_playerData.Points >= _levelData.Cost)
+		if (_playerData.CurrentPoints >= _levelData.Cost)
 		{
 			buyLevelButton.Disabled = false;
 			buyLevelButton.Pressed += OnBuyLevelButtonPressed;
