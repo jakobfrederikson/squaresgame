@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" path="res://Scenes/LevelHelpers/LevelOver/LevelOverScene.cs" id="1_kbbpq"]
 
-[node name="LevelOverScene" type="Control" node_paths=PackedStringArray("_mainMenuButton")]
+[node name="LevelOverScene" type="Control" node_paths=PackedStringArray("_mainMenuButton", "_roundOverMessageLabel", "_scoreLabel", "_playerTotalScoreLabel", "_totalLevelClicksLabel", "_normalSquaresClickedLabel", "_prizeBoxSquaresClickedLabel", "_badBlockSquaresClickedLabel", "_missedClicksLabel", "_roundTimeTakenLabel")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -12,225 +12,245 @@ grow_vertical = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 script = ExtResource("1_kbbpq")
-_mainMenuButton = NodePath("VBoxContainer/Button")
+_mainMenuButton = NodePath("HBoxContainer/VBoxContainer/Button")
+_roundOverMessageLabel = NodePath("HBoxContainer/VBoxContainer/RoundOverMessageContainer/EndMessageLabel")
+_scoreLabel = NodePath("HBoxContainer/VBoxContainer/RoundOverStatsContainer/VBoxContainer/LevelScore/StatContainer/RoundScoreLabel")
+_playerTotalScoreLabel = NodePath("HBoxContainer/VBoxContainer/RoundOverStatsContainer/VBoxContainer/TotalScore/StatContainer/RoundScoreLabel")
+_totalLevelClicksLabel = NodePath("HBoxContainer/VBoxContainer/RoundOverStatsContainer/VBoxContainer/TotalClicks/StatContainer/RoundScoreLabel")
+_normalSquaresClickedLabel = NodePath("HBoxContainer/VBoxContainer/RoundOverStatsContainer/VBoxContainer/NormalSquaresClicked/StatContainer/NoramlSquaresLabel")
+_prizeBoxSquaresClickedLabel = NodePath("HBoxContainer/VBoxContainer/RoundOverStatsContainer/VBoxContainer/PrizeBoxSquares/StatContainer/PrizeBoxSquaresLabel")
+_badBlockSquaresClickedLabel = NodePath("HBoxContainer/VBoxContainer/RoundOverStatsContainer/VBoxContainer/BadBlockSquares/StatContainer/BadBlockSquaresLabel")
+_missedClicksLabel = NodePath("HBoxContainer/VBoxContainer/RoundOverStatsContainer/VBoxContainer/MissedClicks/StatContainer/MissedClicksLabel")
+_roundTimeTakenLabel = NodePath("HBoxContainer/VBoxContainer/RoundOverStatsContainer/VBoxContainer/RoundDuration/StatContainer/TimeTakenLabel")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="."]
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-
-[node name="PanelContainer" type="PanelContainer" parent="VBoxContainer"]
-layout_mode = 2
-size_flags_vertical = 3
-
-[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/PanelContainer"]
-layout_mode = 2
-size_flags_horizontal = 4
 alignment = 1
 
-[node name="TitleLabel" type="Label" parent="VBoxContainer/PanelContainer/VBoxContainer"]
+[node name="AspectRatioContainer2" type="AspectRatioContainer" parent="HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="RoundOverMessageContainer" type="VBoxContainer" parent="HBoxContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="TitleLabel" type="Label" parent="HBoxContainer/VBoxContainer/RoundOverMessageContainer"]
 layout_mode = 2
 text = "Round Over"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="EndMessageLabel" type="Label" parent="VBoxContainer/PanelContainer/VBoxContainer"]
+[node name="EndMessageLabel" type="Label" parent="HBoxContainer/VBoxContainer/RoundOverMessageContainer"]
 layout_mode = 2
 text = "Message describing how the round ended (time up/no more squares to spawn/enough points acquired)."
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/PanelContainer/VBoxContainer"]
+[node name="RoundOverStatsContainer" type="VBoxContainer" parent="HBoxContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+
+[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer/VBoxContainer/RoundOverStatsContainer"]
 layout_mode = 2
 alignment = 1
 
-[node name="LevelScore" type="PanelContainer" parent="VBoxContainer/PanelContainer/VBoxContainer/VBoxContainer"]
+[node name="LevelScore" type="PanelContainer" parent="HBoxContainer/VBoxContainer/RoundOverStatsContainer/VBoxContainer"]
 layout_mode = 2
 
-[node name="StatContainer" type="HBoxContainer" parent="VBoxContainer/PanelContainer/VBoxContainer/VBoxContainer/LevelScore"]
+[node name="StatContainer" type="HBoxContainer" parent="HBoxContainer/VBoxContainer/RoundOverStatsContainer/VBoxContainer/LevelScore"]
 layout_mode = 2
 alignment = 1
 
-[node name="Label" type="Label" parent="VBoxContainer/PanelContainer/VBoxContainer/VBoxContainer/LevelScore/StatContainer"]
+[node name="Label" type="Label" parent="HBoxContainer/VBoxContainer/RoundOverStatsContainer/VBoxContainer/LevelScore/StatContainer"]
 layout_mode = 2
 text = "Level score"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="AspectRatioContainer" type="AspectRatioContainer" parent="VBoxContainer/PanelContainer/VBoxContainer/VBoxContainer/LevelScore/StatContainer"]
+[node name="AspectRatioContainer" type="AspectRatioContainer" parent="HBoxContainer/VBoxContainer/RoundOverStatsContainer/VBoxContainer/LevelScore/StatContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="RoundScoreLabel" type="Label" parent="VBoxContainer/PanelContainer/VBoxContainer/VBoxContainer/LevelScore/StatContainer"]
+[node name="RoundScoreLabel" type="Label" parent="HBoxContainer/VBoxContainer/RoundOverStatsContainer/VBoxContainer/LevelScore/StatContainer"]
 layout_mode = 2
 text = "Score"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="TotalScore" type="PanelContainer" parent="VBoxContainer/PanelContainer/VBoxContainer/VBoxContainer"]
+[node name="TotalScore" type="PanelContainer" parent="HBoxContainer/VBoxContainer/RoundOverStatsContainer/VBoxContainer"]
 layout_mode = 2
 
-[node name="StatContainer" type="HBoxContainer" parent="VBoxContainer/PanelContainer/VBoxContainer/VBoxContainer/TotalScore"]
+[node name="StatContainer" type="HBoxContainer" parent="HBoxContainer/VBoxContainer/RoundOverStatsContainer/VBoxContainer/TotalScore"]
 layout_mode = 2
 alignment = 1
 
-[node name="Label" type="Label" parent="VBoxContainer/PanelContainer/VBoxContainer/VBoxContainer/TotalScore/StatContainer"]
+[node name="Label" type="Label" parent="HBoxContainer/VBoxContainer/RoundOverStatsContainer/VBoxContainer/TotalScore/StatContainer"]
 layout_mode = 2
 text = "Total score"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="AspectRatioContainer" type="AspectRatioContainer" parent="VBoxContainer/PanelContainer/VBoxContainer/VBoxContainer/TotalScore/StatContainer"]
+[node name="AspectRatioContainer" type="AspectRatioContainer" parent="HBoxContainer/VBoxContainer/RoundOverStatsContainer/VBoxContainer/TotalScore/StatContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="RoundScoreLabel" type="Label" parent="VBoxContainer/PanelContainer/VBoxContainer/VBoxContainer/TotalScore/StatContainer"]
+[node name="RoundScoreLabel" type="Label" parent="HBoxContainer/VBoxContainer/RoundOverStatsContainer/VBoxContainer/TotalScore/StatContainer"]
 layout_mode = 2
 text = "Total Score"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="TotalClicks" type="PanelContainer" parent="VBoxContainer/PanelContainer/VBoxContainer/VBoxContainer"]
+[node name="TotalClicks" type="PanelContainer" parent="HBoxContainer/VBoxContainer/RoundOverStatsContainer/VBoxContainer"]
 layout_mode = 2
 
-[node name="StatContainer" type="HBoxContainer" parent="VBoxContainer/PanelContainer/VBoxContainer/VBoxContainer/TotalClicks"]
+[node name="StatContainer" type="HBoxContainer" parent="HBoxContainer/VBoxContainer/RoundOverStatsContainer/VBoxContainer/TotalClicks"]
 layout_mode = 2
 alignment = 1
 
-[node name="Label" type="Label" parent="VBoxContainer/PanelContainer/VBoxContainer/VBoxContainer/TotalClicks/StatContainer"]
+[node name="Label" type="Label" parent="HBoxContainer/VBoxContainer/RoundOverStatsContainer/VBoxContainer/TotalClicks/StatContainer"]
 layout_mode = 2
 text = "Total clicks"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="AspectRatioContainer" type="AspectRatioContainer" parent="VBoxContainer/PanelContainer/VBoxContainer/VBoxContainer/TotalClicks/StatContainer"]
+[node name="AspectRatioContainer" type="AspectRatioContainer" parent="HBoxContainer/VBoxContainer/RoundOverStatsContainer/VBoxContainer/TotalClicks/StatContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="RoundScoreLabel" type="Label" parent="VBoxContainer/PanelContainer/VBoxContainer/VBoxContainer/TotalClicks/StatContainer"]
+[node name="RoundScoreLabel" type="Label" parent="HBoxContainer/VBoxContainer/RoundOverStatsContainer/VBoxContainer/TotalClicks/StatContainer"]
 layout_mode = 2
 text = "Total Score"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="NormalSquaresClicked" type="PanelContainer" parent="VBoxContainer/PanelContainer/VBoxContainer/VBoxContainer"]
+[node name="NormalSquaresClicked" type="PanelContainer" parent="HBoxContainer/VBoxContainer/RoundOverStatsContainer/VBoxContainer"]
 layout_mode = 2
 
-[node name="StatContainer" type="HBoxContainer" parent="VBoxContainer/PanelContainer/VBoxContainer/VBoxContainer/NormalSquaresClicked"]
+[node name="StatContainer" type="HBoxContainer" parent="HBoxContainer/VBoxContainer/RoundOverStatsContainer/VBoxContainer/NormalSquaresClicked"]
 layout_mode = 2
 alignment = 1
 
-[node name="Label" type="Label" parent="VBoxContainer/PanelContainer/VBoxContainer/VBoxContainer/NormalSquaresClicked/StatContainer"]
+[node name="Label" type="Label" parent="HBoxContainer/VBoxContainer/RoundOverStatsContainer/VBoxContainer/NormalSquaresClicked/StatContainer"]
 layout_mode = 2
 text = "Normal squares clicked (+1)"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="AspectRatioContainer" type="AspectRatioContainer" parent="VBoxContainer/PanelContainer/VBoxContainer/VBoxContainer/NormalSquaresClicked/StatContainer"]
+[node name="AspectRatioContainer" type="AspectRatioContainer" parent="HBoxContainer/VBoxContainer/RoundOverStatsContainer/VBoxContainer/NormalSquaresClicked/StatContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="NoramlSquaresLabel" type="Label" parent="VBoxContainer/PanelContainer/VBoxContainer/VBoxContainer/NormalSquaresClicked/StatContainer"]
+[node name="NoramlSquaresLabel" type="Label" parent="HBoxContainer/VBoxContainer/RoundOverStatsContainer/VBoxContainer/NormalSquaresClicked/StatContainer"]
 layout_mode = 2
 text = "Amount"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="PrizeBoxSquares" type="PanelContainer" parent="VBoxContainer/PanelContainer/VBoxContainer/VBoxContainer"]
+[node name="PrizeBoxSquares" type="PanelContainer" parent="HBoxContainer/VBoxContainer/RoundOverStatsContainer/VBoxContainer"]
 layout_mode = 2
 
-[node name="StatContainer" type="HBoxContainer" parent="VBoxContainer/PanelContainer/VBoxContainer/VBoxContainer/PrizeBoxSquares"]
+[node name="StatContainer" type="HBoxContainer" parent="HBoxContainer/VBoxContainer/RoundOverStatsContainer/VBoxContainer/PrizeBoxSquares"]
 layout_mode = 2
 alignment = 1
 
-[node name="Label" type="Label" parent="VBoxContainer/PanelContainer/VBoxContainer/VBoxContainer/PrizeBoxSquares/StatContainer"]
+[node name="Label" type="Label" parent="HBoxContainer/VBoxContainer/RoundOverStatsContainer/VBoxContainer/PrizeBoxSquares/StatContainer"]
 layout_mode = 2
 text = "Prize Box squares clicked (+2)"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="AspectRatioContainer" type="AspectRatioContainer" parent="VBoxContainer/PanelContainer/VBoxContainer/VBoxContainer/PrizeBoxSquares/StatContainer"]
+[node name="AspectRatioContainer" type="AspectRatioContainer" parent="HBoxContainer/VBoxContainer/RoundOverStatsContainer/VBoxContainer/PrizeBoxSquares/StatContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="PrizeBoxSquaresLabel" type="Label" parent="VBoxContainer/PanelContainer/VBoxContainer/VBoxContainer/PrizeBoxSquares/StatContainer"]
+[node name="PrizeBoxSquaresLabel" type="Label" parent="HBoxContainer/VBoxContainer/RoundOverStatsContainer/VBoxContainer/PrizeBoxSquares/StatContainer"]
 layout_mode = 2
 text = "Amount"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="BadBlockSquares" type="PanelContainer" parent="VBoxContainer/PanelContainer/VBoxContainer/VBoxContainer"]
+[node name="BadBlockSquares" type="PanelContainer" parent="HBoxContainer/VBoxContainer/RoundOverStatsContainer/VBoxContainer"]
 layout_mode = 2
 
-[node name="StatContainer" type="HBoxContainer" parent="VBoxContainer/PanelContainer/VBoxContainer/VBoxContainer/BadBlockSquares"]
+[node name="StatContainer" type="HBoxContainer" parent="HBoxContainer/VBoxContainer/RoundOverStatsContainer/VBoxContainer/BadBlockSquares"]
 layout_mode = 2
 alignment = 1
 
-[node name="Label" type="Label" parent="VBoxContainer/PanelContainer/VBoxContainer/VBoxContainer/BadBlockSquares/StatContainer"]
+[node name="Label" type="Label" parent="HBoxContainer/VBoxContainer/RoundOverStatsContainer/VBoxContainer/BadBlockSquares/StatContainer"]
 layout_mode = 2
 text = "Bad Block squares clicked (-2)"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="AspectRatioContainer" type="AspectRatioContainer" parent="VBoxContainer/PanelContainer/VBoxContainer/VBoxContainer/BadBlockSquares/StatContainer"]
+[node name="AspectRatioContainer" type="AspectRatioContainer" parent="HBoxContainer/VBoxContainer/RoundOverStatsContainer/VBoxContainer/BadBlockSquares/StatContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="BadBlockSquaresLabel" type="Label" parent="VBoxContainer/PanelContainer/VBoxContainer/VBoxContainer/BadBlockSquares/StatContainer"]
+[node name="BadBlockSquaresLabel" type="Label" parent="HBoxContainer/VBoxContainer/RoundOverStatsContainer/VBoxContainer/BadBlockSquares/StatContainer"]
 layout_mode = 2
 text = "Amount"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="MissedClicks" type="PanelContainer" parent="VBoxContainer/PanelContainer/VBoxContainer/VBoxContainer"]
+[node name="MissedClicks" type="PanelContainer" parent="HBoxContainer/VBoxContainer/RoundOverStatsContainer/VBoxContainer"]
 layout_mode = 2
 
-[node name="StatContainer" type="HBoxContainer" parent="VBoxContainer/PanelContainer/VBoxContainer/VBoxContainer/MissedClicks"]
+[node name="StatContainer" type="HBoxContainer" parent="HBoxContainer/VBoxContainer/RoundOverStatsContainer/VBoxContainer/MissedClicks"]
 layout_mode = 2
 alignment = 1
 
-[node name="Label" type="Label" parent="VBoxContainer/PanelContainer/VBoxContainer/VBoxContainer/MissedClicks/StatContainer"]
+[node name="Label" type="Label" parent="HBoxContainer/VBoxContainer/RoundOverStatsContainer/VBoxContainer/MissedClicks/StatContainer"]
 layout_mode = 2
 text = "Missed clicks"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="AspectRatioContainer" type="AspectRatioContainer" parent="VBoxContainer/PanelContainer/VBoxContainer/VBoxContainer/MissedClicks/StatContainer"]
+[node name="AspectRatioContainer" type="AspectRatioContainer" parent="HBoxContainer/VBoxContainer/RoundOverStatsContainer/VBoxContainer/MissedClicks/StatContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="MissedClicksLabel" type="Label" parent="VBoxContainer/PanelContainer/VBoxContainer/VBoxContainer/MissedClicks/StatContainer"]
+[node name="MissedClicksLabel" type="Label" parent="HBoxContainer/VBoxContainer/RoundOverStatsContainer/VBoxContainer/MissedClicks/StatContainer"]
 layout_mode = 2
 text = "Amount"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="RoundDuration" type="PanelContainer" parent="VBoxContainer/PanelContainer/VBoxContainer/VBoxContainer"]
+[node name="RoundDuration" type="PanelContainer" parent="HBoxContainer/VBoxContainer/RoundOverStatsContainer/VBoxContainer"]
 layout_mode = 2
 
-[node name="StatContainer" type="HBoxContainer" parent="VBoxContainer/PanelContainer/VBoxContainer/VBoxContainer/RoundDuration"]
+[node name="StatContainer" type="HBoxContainer" parent="HBoxContainer/VBoxContainer/RoundOverStatsContainer/VBoxContainer/RoundDuration"]
 layout_mode = 2
 alignment = 1
 
-[node name="Label" type="Label" parent="VBoxContainer/PanelContainer/VBoxContainer/VBoxContainer/RoundDuration/StatContainer"]
+[node name="Label" type="Label" parent="HBoxContainer/VBoxContainer/RoundOverStatsContainer/VBoxContainer/RoundDuration/StatContainer"]
 layout_mode = 2
 text = "Time taken to complete round"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="AspectRatioContainer" type="AspectRatioContainer" parent="VBoxContainer/PanelContainer/VBoxContainer/VBoxContainer/RoundDuration/StatContainer"]
+[node name="AspectRatioContainer" type="AspectRatioContainer" parent="HBoxContainer/VBoxContainer/RoundOverStatsContainer/VBoxContainer/RoundDuration/StatContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="TimeTakenLabel" type="Label" parent="VBoxContainer/PanelContainer/VBoxContainer/VBoxContainer/RoundDuration/StatContainer"]
+[node name="TimeTakenLabel" type="Label" parent="HBoxContainer/VBoxContainer/RoundOverStatsContainer/VBoxContainer/RoundDuration/StatContainer"]
 layout_mode = 2
 text = "Time"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Button" type="Button" parent="VBoxContainer"]
+[node name="Button" type="Button" parent="HBoxContainer/VBoxContainer"]
 layout_mode = 2
 text = "Back to main menu"
+
+[node name="AspectRatioContainer" type="AspectRatioContainer" parent="HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3

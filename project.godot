@@ -15,6 +15,10 @@ run/main_scene="res://Scenes/Menus/StartMenu/StartMenu.tscn"
 config/features=PackedStringArray("4.3", "C#", "Forward Plus")
 config/icon="res://icon.svg"
 
+[autoload]
+
+RoundEndData="*res://Helpers/CodeHelpers/RoundEndData.cs"
+
 [dotnet]
 
 project/assembly_name="SquaresGame"

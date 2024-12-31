@@ -39,6 +39,7 @@ public sealed partial class PlayerData : Resource
 
 	public void UpdateLevelStats(LevelData levelData)
 	{
+		GivePoints(levelData.Score);
 		LifeTimeSquaresClicked += levelData.TotalSquaresClicked;
 		LifeTimeGoodSquaresClicked += levelData.GoodSquareClicks;
 		LifeTimeBadSquaresClicked += levelData.BadBlockClicks;

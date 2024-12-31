@@ -14,12 +14,17 @@ public partial class LevelData : Resource
     [Export] public bool PointsPerWin;
     [Export] public int RoundDuration;
     [Export] public int ScoreToWin;
+
+
+    // Set once a player plays a level
     [Export] public int TotalClicks;
     [Export] public int NormalSquareClicks;
     [Export] public int BadBlockClicks;
     [Export] public int PrizeBoxClicks;
     [Export] public int MissedClicks;
     [Export] public float PointsMultiplierPerWin;
+    [Export] public int Score;
+    [Export] public double TimeTakenToFinishLevel;
 
     public int TotalSquaresClicked => NormalSquareClicks + PrizeBoxClicks + BadBlockClicks;
     public int GoodSquareClicks => NormalSquareClicks + PrizeBoxClicks;

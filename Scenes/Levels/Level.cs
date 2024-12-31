@@ -12,7 +12,6 @@ public partial class Level : Node2D
 {
     [Export] protected Timer SquareTimer;
     [Export] protected Timer RoundTimer;
-    protected int prt_baseTime; // protected baseTime
     [Export] protected LevelData LevelData;
     protected PackedScene SquareScene;
     protected PackedScene BadBlockScene;
@@ -23,6 +22,8 @@ public partial class Level : Node2D
     protected ClickDataRecorder _clickDataRecorder;
     protected SquareEntitySpawner _spawner;
     protected int _score;
+    protected int _currentRoundTime;
+    protected int TimeTakenToFinishLevel => LevelData.RoundDuration - _currentRoundTime;
 
     public override void _Ready()
     {
@@ -35,8 +36,6 @@ public partial class Level : Node2D
         RoundTimer.Timeout += UpdateHUDTime;
         RoundTimer.Timeout += CheckGameEnd;
         RoundTimer.Autostart = true;
-
-        prt_baseTime = 0;
 
         // Load SquareEntity PackedScenes
         SquareScene = EntityLoader.Get(EntityType.SQUARE);
@@ -63,6 +62,8 @@ public partial class Level : Node2D
             _missedClickHandler, GetViewport().GetVisibleRect(), this, seed: 1);
 
         _clickDataRecorder = new ClickDataRecorder();
+
+        _currentRoundTime = LevelData.RoundDuration;
     }
 
     protected virtual float GetLevelDuration() => LevelData.RoundDuration;
@@ -89,9 +90,10 @@ public partial class Level : Node2D
 
     protected virtual void UpdateHUDTime()
     {
-        prt_baseTime += 1;
+        _currentRoundTime -= 1;
+        if (_currentRoundTime == 0) EndLevel(LevelOverType.TimeUp);
 
-        var timeDict = Time.GetTimeDictFromUnixTime(prt_baseTime);
+        var timeDict = Time.GetTimeDictFromUnixTime(_currentRoundTime);
 
         int minute = (int)timeDict["minute"];
         int second = (int)timeDict["second"];
@@ -143,7 +145,7 @@ public partial class Level : Node2D
 
     protected void CheckGameEnd()
     {
-        if (prt_baseTime >= LevelData.RoundDuration) EndLevel(LevelOverType.TimeUp);
+        if (_currentRoundTime >= LevelData.RoundDuration) EndLevel(LevelOverType.TimeUp);
         else if (_score >= LevelData.ScoreToWin) EndLevel(LevelOverType.Won);
         else if (_spawner.IsQueueEmpty) EndLevel(LevelOverType.NoMoreSquares);
     }
@@ -152,17 +154,16 @@ public partial class Level : Node2D
     {
         Save();
         var levelOverScene = PackedSceneLoader.Get(ScenePath.LEVEL_OVER_SCENE);
-        var levelOverInstance = levelOverScene.Instantiate<LevelOverScene>();
-        levelOverInstance.SetEndReason(levelOverType);
-
-        var visibleRect = GetViewport().GetVisibleRect();
-        levelOverInstance.Position = visibleRect.Size / 2 - levelOverInstance.Size / 2;
-
-        var currentScene = GetTree().CurrentScene;
-        GetTree().Root.RemoveChild(currentScene);
-
-        GetTree().Root.AddChild(levelOverInstance);
-        GetTree().CurrentScene = levelOverInstance;
+        RoundEndData.Instance.LevelOverType = levelOverType;
+        RoundEndData.Instance.Score = _score;
+        RoundEndData.Instance.TotalPoints = PlayerData.TotalPoints;
+        RoundEndData.Instance.TotalSquaresClicked = LevelData.TotalSquaresClicked;
+        RoundEndData.Instance.NormalSquareClicks = LevelData.NormalSquareClicks;
+        RoundEndData.Instance.PrizeBoxClicks = LevelData.PrizeBoxClicks;
+        RoundEndData.Instance.BadBlockClicks = LevelData.BadBlockClicks;
+        RoundEndData.Instance.MissedClicks = LevelData.MissedClicks;
+        RoundEndData.Instance.TimeTakenToFinishLevel = LevelData.TimeTakenToFinishLevel;
+        GetTree().ChangeSceneToPacked(levelOverScene);
     }
 
     protected void Save()
@@ -172,6 +173,8 @@ public partial class Level : Node2D
         LevelData.PrizeBoxClicks = _clickDataRecorder.SquareEntityClickCount(EntityType.PRIZE_BOX);
         LevelData.MissedClicks = _clickDataRecorder.MissedClickCount;
         LevelData.TotalClicks = _clickDataRecorder.TotalClicks;
+        LevelData.Score = _score;
+        LevelData.TimeTakenToFinishLevel = TimeTakenToFinishLevel;
 
         PlayerData.UpdateLevelStats(LevelData);
         SaveData.SavePlayerAndLevelData(PlayerData, LevelData);
