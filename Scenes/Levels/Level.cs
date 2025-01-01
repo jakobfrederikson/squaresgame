@@ -73,13 +73,8 @@ public partial class Level : Node2D
     {
         _clickDataRecorder.RecordSquareEntityClick(square.Type);
         _score += square.ScoreValue;
-
         hud.UpdateScore(_score);
-
-        if (_score >= LevelData.ScoreToWin)
-        {
-            CheckGameEnd();
-        }
+        if (_score >= LevelData.ScoreToWin) CheckGameEnd();
     }
 
     protected virtual void OnSquareMissClicked()
@@ -91,14 +86,53 @@ public partial class Level : Node2D
     protected virtual void UpdateHUDTime()
     {
         _currentRoundTime -= 1;
-        if (_currentRoundTime == 0) EndLevel(LevelOverType.TimeUp);
-
         var timeDict = Time.GetTimeDictFromUnixTime(_currentRoundTime);
-
         int minute = (int)timeDict["minute"];
         int second = (int)timeDict["second"];
-
         hud.UpdateTime(minute, second);
+    }
+
+    protected void CheckGameEnd()
+    {
+        if (_currentRoundTime >= LevelData.RoundDuration) EndLevel(LevelOverType.TimeUp);
+        else if (_score >= LevelData.ScoreToWin) EndLevel(LevelOverType.Won);
+        else if (_spawner.IsQueueEmpty) EndLevel(LevelOverType.NoMoreSquares);
+    }
+
+    protected void EndLevel(LevelOverType levelOverType)
+    {
+        SaveLevelAndPlayerData();
+        var levelOverScene = PackedSceneLoader.Get(ScenePath.LEVEL_OVER_SCENE);
+        SetRoundEndData(levelOverType);
+        GetTree().ChangeSceneToPacked(levelOverScene);
+    }
+
+    protected void SaveLevelAndPlayerData()
+    {
+        LevelData.NormalSquareClicks = _clickDataRecorder.GetSquareEntityClickCount(EntityType.SQUARE);
+        LevelData.BadBlockClicks = _clickDataRecorder.GetSquareEntityClickCount(EntityType.BAD_BLOCK);
+        LevelData.PrizeBoxClicks = _clickDataRecorder.GetSquareEntityClickCount(EntityType.PRIZE_BOX);
+        LevelData.MissedClicks = _clickDataRecorder.MissedClickCount;
+        LevelData.TotalClicks = _clickDataRecorder.TotalClicks;
+        LevelData.Score = _score;
+        LevelData.TimeTakenToFinishLevel = TimeTakenToFinishLevel;
+
+        PlayerData.UpdateLevelStats(LevelData);
+        SaveData.SavePlayerAndLevelData(PlayerData, LevelData);
+    }
+
+    protected void SetRoundEndData(LevelOverType levelOverType)
+    {
+        RoundEndData.Instance.LevelOverType = levelOverType;
+        RoundEndData.Instance.Score = _score;
+        RoundEndData.Instance.TotalPoints = PlayerData.TotalPoints;
+        RoundEndData.Instance.TotalClicks = LevelData.TotalClicks;
+        RoundEndData.Instance.TotalSquaresClicked = LevelData.TotalSquaresClicked;
+        RoundEndData.Instance.NormalSquareClicks = LevelData.NormalSquareClicks;
+        RoundEndData.Instance.PrizeBoxClicks = LevelData.PrizeBoxClicks;
+        RoundEndData.Instance.BadBlockClicks = LevelData.BadBlockClicks;
+        RoundEndData.Instance.MissedClicks = LevelData.MissedClicks;
+        RoundEndData.Instance.TimeTakenToFinishLevel = LevelData.TimeTakenToFinishLevel;
     }
 
     private void CreateBackButton()
@@ -141,43 +175,5 @@ public partial class Level : Node2D
     {
         PackedScene scene = PackedSceneLoader.Get(ScenePath.START_MENU);
         GetTree().ChangeSceneToPacked(scene);
-    }
-
-    protected void CheckGameEnd()
-    {
-        if (_currentRoundTime >= LevelData.RoundDuration) EndLevel(LevelOverType.TimeUp);
-        else if (_score >= LevelData.ScoreToWin) EndLevel(LevelOverType.Won);
-        else if (_spawner.IsQueueEmpty) EndLevel(LevelOverType.NoMoreSquares);
-    }
-
-    protected void EndLevel(LevelOverType levelOverType)
-    {
-        Save();
-        var levelOverScene = PackedSceneLoader.Get(ScenePath.LEVEL_OVER_SCENE);
-        RoundEndData.Instance.LevelOverType = levelOverType;
-        RoundEndData.Instance.Score = _score;
-        RoundEndData.Instance.TotalPoints = PlayerData.TotalPoints;
-        RoundEndData.Instance.TotalClicks = LevelData.TotalClicks;
-        RoundEndData.Instance.TotalSquaresClicked = LevelData.TotalSquaresClicked;
-        RoundEndData.Instance.NormalSquareClicks = LevelData.NormalSquareClicks;
-        RoundEndData.Instance.PrizeBoxClicks = LevelData.PrizeBoxClicks;
-        RoundEndData.Instance.BadBlockClicks = LevelData.BadBlockClicks;
-        RoundEndData.Instance.MissedClicks = LevelData.MissedClicks;
-        RoundEndData.Instance.TimeTakenToFinishLevel = LevelData.TimeTakenToFinishLevel;
-        GetTree().ChangeSceneToPacked(levelOverScene);
-    }
-
-    protected void Save()
-    {
-        LevelData.NormalSquareClicks = _clickDataRecorder.SquareEntityClickCount(EntityType.SQUARE);
-        LevelData.BadBlockClicks = _clickDataRecorder.SquareEntityClickCount(EntityType.BAD_BLOCK);
-        LevelData.PrizeBoxClicks = _clickDataRecorder.SquareEntityClickCount(EntityType.PRIZE_BOX);
-        LevelData.MissedClicks = _clickDataRecorder.MissedClickCount;
-        LevelData.TotalClicks = _clickDataRecorder.TotalClicks;
-        LevelData.Score = _score;
-        LevelData.TimeTakenToFinishLevel = TimeTakenToFinishLevel;
-
-        PlayerData.UpdateLevelStats(LevelData);
-        SaveData.SavePlayerAndLevelData(PlayerData, LevelData);
     }
 }
