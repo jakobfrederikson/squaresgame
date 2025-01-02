@@ -1,4 +1,4 @@
-[gd_resource type="Resource" load_steps=2 format=3 uid="uid://dmleftrop1a68"]
+[gd_resource type="Resource" load_steps=2 format=3]
 
 [ext_resource type="Script" path="res://ResourceBases/UpgradeData.cs" id="1_k16n2"]
 
@@ -10,6 +10,6 @@ Description = "Automatically clicks squares for you."
 Cost = 100
 IsBought = true
 UpgradeStage = 2
-IsEnabled = false
+IsEnabled = true
 SqauresClicked = 0
 PathToResource = "res://Resources/UpgradeData/UpgradeTest.tres"

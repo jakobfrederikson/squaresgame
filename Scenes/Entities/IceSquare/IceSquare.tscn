@@ -1,9 +1,6 @@
-[gd_scene load_steps=3 format=3 uid="uid://cyh4jvefcjci1"]
+[gd_scene load_steps=2 format=3 uid="uid://cyh4jvefcjci1"]
 
 [ext_resource type="Script" path="res://Scenes/Entities/IceSquare/IceSquare.cs" id="1_nmfd7"]
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_ryxit"]
-size = Vector2(132, 131)
 
 [node name="IceSquare" type="Node2D" node_paths=PackedStringArray("control")]
 script = ExtResource("1_nmfd7")
@@ -22,7 +19,6 @@ offset_right = 65.5
 offset_bottom = 66.0
 grow_horizontal = 2
 grow_vertical = 2
-mouse_default_cursor_shape = 3
 
 [node name="ColorRect" type="ColorRect" parent="Control"]
 layout_mode = 1
@@ -33,10 +29,3 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 1
 color = Color(0, 0.660697, 0.791954, 1)
-
-[node name="Area2D" type="Area2D" parent="."]
-visible = false
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
-position = Vector2(64, 63.5)
-shape = SubResource("RectangleShape2D_ryxit")

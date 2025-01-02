@@ -11,6 +11,8 @@ public partial class SquareEntity : Node2D
     public delegate void MouseExitedEventHandler();
 
     [Export] private Control control;
+    private Texture2D _defaultCursor;
+    private Texture2D _pointingHandCursor;
 
     private RectangleShape2D _rectangleShape2D;
     protected bool _mouseInSquare;
@@ -27,6 +29,8 @@ public partial class SquareEntity : Node2D
 
         control.MouseEntered += OnControlMouseEntered;
         control.MouseExited += OnControlMouseExited;
+        _defaultCursor = ResourceLoader.Load<Texture2D>("res://Assets/Cursor2.png");
+        _pointingHandCursor = ResourceLoader.Load<Texture2D>("res://Assets/Cursor3.png");
 
         // Initialise the despawn timer
         _despawnTimer = new Timer();
@@ -42,12 +46,14 @@ public partial class SquareEntity : Node2D
     {
         _mouseInSquare = true;
         EmitSignal(SignalName.MouseEntered);
+        Input.SetCustomMouseCursor(_pointingHandCursor);
     }
 
     private void OnControlMouseExited()
     {
         _mouseInSquare = false;
         EmitSignal(SignalName.MouseExited);
+        Input.SetCustomMouseCursor(_defaultCursor);
     }
 
     public override void _Input(InputEvent @event)
