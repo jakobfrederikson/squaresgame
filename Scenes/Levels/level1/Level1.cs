@@ -13,7 +13,8 @@ public partial class Level1 : Level
 		int totalSpawns = (int)(GetLevelDuration() / SquareTimer.WaitTime);
 		var entityInfos = new List<SquareEntityInfo>
 		{
-			new SquareEntityInfo { Type = EntityType.SQUARE, SpawnProbability = 1.0f, Scene = SquareScene}
+			new SquareEntityInfo { Type = EntityType.SQUARE, SpawnProbability = 0.50f, Scene = SquareScene },
+			new SquareEntityInfo { Type = EntityType.ICE_SQUARE, SpawnProbability = 0.50f, Scene = IceSquareScene }
 		};
 		_spawner.PrecalculateSpawns(totalSpawns, entityInfos);
 	}

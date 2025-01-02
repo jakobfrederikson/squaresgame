@@ -13,9 +13,9 @@ public partial class SquareEntity : Node2D
     [Export] private Control control;
 
     private RectangleShape2D _rectangleShape2D;
-    private bool _mouseInSquare;
-    private Timer _despawnTimer;
-    private Tween _tween;
+    protected bool _mouseInSquare;
+    protected Timer _despawnTimer;
+    protected Tween _tween;
 
     public virtual int ScoreValue => 1;
     public EntityType Type { get; set; }
@@ -59,7 +59,7 @@ public partial class SquareEntity : Node2D
         }
     }
 
-    private void StartDespawnSequence()
+    protected virtual void StartDespawnSequence()
     {
         _tween = CreateTween();
         _tween.TweenProperty(this, "scale", Godot.Vector2.Zero, 0.75f)
@@ -67,7 +67,7 @@ public partial class SquareEntity : Node2D
         _tween.TweenCallback(Callable.From(Despawn));
     }
 
-    private void Despawn()
+    protected virtual void Despawn()
     {
         QueueFree();
         GD.Print($"{this} - square has despawned.");

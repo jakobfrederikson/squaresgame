@@ -16,6 +16,7 @@ public partial class SquareEntitySpawner : Node
     private PackedScene _squareScene;
     private PackedScene _badBlockScene;
     private PackedScene _prizeBoxScene;
+    private PackedScene _iceSquareScene;
     private MissedClickHandler _missedClickHandler;
 
     private List<SquareEntityInfo> _spawnQueue;
@@ -30,12 +31,13 @@ public partial class SquareEntitySpawner : Node
 
     public SquareEntitySpawner(PackedScene squareScene,
         PackedScene badBlockScene, PackedScene prizeBoxScene,
-        MissedClickHandler missedClickHandler, Rect2 viewportRect,
-        Level level, int seed)
+        PackedScene iceSquareScene, MissedClickHandler missedClickHandler,
+         Rect2 viewportRect, Level level, int seed)
     {
         _squareScene = squareScene;
         _badBlockScene = badBlockScene;
         _prizeBoxScene = prizeBoxScene;
+        _iceSquareScene = iceSquareScene;
         _missedClickHandler = missedClickHandler;
         _viewportRect = viewportRect;
         _level = level;

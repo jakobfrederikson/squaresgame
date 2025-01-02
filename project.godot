@@ -17,7 +17,11 @@ config/icon="res://icon.svg"
 
 [autoload]
 
-RoundEndData="*res://Helpers/CodeHelpers/RoundEndData.cs"
+RoundEndData="*res://Utility/CodeHelpers/RoundEndData.cs"
+
+[display]
+
+mouse_cursor/custom_image="res://Assets/Cursor.png"
 
 [dotnet]
 

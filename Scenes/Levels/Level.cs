@@ -16,6 +16,7 @@ public partial class Level : Node2D
     protected PackedScene SquareScene;
     protected PackedScene BadBlockScene;
     protected PackedScene PrizeBoxScene;
+    protected PackedScene IceSquareScene;
     protected PlayerData PlayerData;
     protected Hud hud;
     protected MissedClickHandler _missedClickHandler;
@@ -41,6 +42,7 @@ public partial class Level : Node2D
         SquareScene = EntityLoader.Get(EntityType.SQUARE);
         BadBlockScene = EntityLoader.Get(EntityType.BAD_BLOCK);
         PrizeBoxScene = EntityLoader.Get(EntityType.PRIZE_BOX);
+        IceSquareScene = EntityLoader.Get(EntityType.ICE_SQUARE);
 
         // Get PlayerData
         PlayerData = (PlayerData)ResourceDataLoader.Get(ResourcePath.PLAYER_DATA);
@@ -59,7 +61,7 @@ public partial class Level : Node2D
         _score = 0;
 
         _spawner = new SquareEntitySpawner(SquareScene, BadBlockScene, PrizeBoxScene,
-            _missedClickHandler, GetViewport().GetVisibleRect(), this, seed: 1);
+            IceSquareScene, _missedClickHandler, GetViewport().GetVisibleRect(), this, seed: 1);
 
         _clickDataRecorder = new ClickDataRecorder();
 

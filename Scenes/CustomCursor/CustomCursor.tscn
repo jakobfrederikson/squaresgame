@@ -1,0 +1,9 @@
+[gd_scene load_steps=2 format=3 uid="uid://c0q12rrd5vy"]
+
+[ext_resource type="Texture2D" uid="uid://hri41le7as0r" path="res://Assets/Cursor.png" id="1_a4gip"]
+
+[node name="CustomCursor" type="Node2D"]
+scale = Vector2(0.25, 0.25)
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_a4gip")
