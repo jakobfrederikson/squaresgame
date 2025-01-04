@@ -17,7 +17,7 @@ config/icon="res://icon.svg"
 
 [autoload]
 
-RoundEndData="*res://Utility/CodeHelpers/RoundEndData.cs"
+RoundEndData="*res://Utility/RoundEndData.cs"
 
 [display]
 
