@@ -49,7 +49,6 @@ public partial class SquareEntitySpawner : Node
             }
         }
         ShuffleList(_spawnQueue);
-        WriteToFile(_spawnQueue);
     }
 
     private void ShuffleList<T>(List<T> list)
@@ -84,28 +83,5 @@ public partial class SquareEntitySpawner : Node
         float x = rng.RandfRange(viewportRect.Position.X + squareEntity.Size().X / 2, viewportRect.Position.X + viewportRect.Size.X - squareEntity.Size().X / 2);
         float y = rng.RandfRange(viewportRect.Position.Y + squareEntity.Size().Y / 2, viewportRect.Position.Y + viewportRect.Size.Y - squareEntity.Size().Y / 2);
         squareEntity.Position = new Vector2(x, y);
-    }
-
-    private void WriteToFile(List<SquareEntitySpawnInfo> spawnQueue)
-    {
-        int fileIndex = 1;
-        string fileName;
-
-        do
-        {
-            fileName = $"shuffled_spawn_queue_{fileIndex}.txt";
-            fileIndex++;
-        } while (File.Exists(fileName));
-
-        using (StreamWriter writer = new StreamWriter(fileName))
-        {
-            writer.WriteLine("Shuffled Spawn Queue:");
-            foreach (var entity in spawnQueue)
-            {
-                writer.WriteLine(entity.Type);
-            }
-        }
-
-        Console.WriteLine($"Spawn queue written to {fileName}");
     }
 }
