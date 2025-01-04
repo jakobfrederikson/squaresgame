@@ -8,20 +8,17 @@ using Godot;
 /// Every level has a:
 /// SquareTimer, RoundTimer, LevelData, PlayerData and hud.
 /// </summary>
-public partial class Level : Node2D
+public abstract partial class Level : Node2D
 {
     [Export] protected Timer SquareTimer;
     [Export] protected Timer RoundTimer;
     [Export] protected LevelData LevelData;
-    protected PackedScene SquareScene;
-    protected PackedScene BadBlockScene;
-    protected PackedScene PrizeBoxScene;
-    protected PackedScene IceSquareScene;
     protected PlayerData PlayerData;
     protected Hud hud;
     protected MissedClickHandler _missedClickHandler;
     protected ClickDataRecorder _clickDataRecorder;
-    protected SquareEntitySpawner _spawner;
+    protected SquareEntityManager squareEntityManager;
+    protected SquareEntitySpawner squareEntitySpawner;
     protected int _score;
     protected int _currentRoundTime;
     protected int TimeTakenToFinishLevel => LevelData.RoundDuration - _currentRoundTime;
@@ -37,12 +34,6 @@ public partial class Level : Node2D
         RoundTimer.Timeout += UpdateHUDTime;
         RoundTimer.Timeout += CheckGameEnd;
         RoundTimer.Autostart = true;
-
-        // Load SquareEntity PackedScenes
-        SquareScene = EntityLoader.Get(EntityType.SQUARE);
-        BadBlockScene = EntityLoader.Get(EntityType.BAD_BLOCK);
-        PrizeBoxScene = EntityLoader.Get(EntityType.PRIZE_BOX);
-        IceSquareScene = EntityLoader.Get(EntityType.ICE_SQUARE);
 
         // Get PlayerData
         PlayerData = (PlayerData)ResourceDataLoader.Get(ResourcePath.PLAYER_DATA);
@@ -60,16 +51,47 @@ public partial class Level : Node2D
 
         _score = 0;
 
-        _spawner = new SquareEntitySpawner(SquareScene, BadBlockScene, PrizeBoxScene,
-            IceSquareScene, _missedClickHandler, GetViewport().GetVisibleRect(), this, seed: 1);
+        squareEntityManager = new();
+        squareEntitySpawner = new SquareEntitySpawner(
+            _missedClickHandler,
+            level: this,
+            seed: 1);
 
         _clickDataRecorder = new ClickDataRecorder();
 
         _currentRoundTime = LevelData.RoundDuration;
+
+        SetSquaresForLevel();
     }
 
     protected virtual float GetLevelDuration() => LevelData.RoundDuration;
-    protected virtual void SpawnSquareEntity() => _spawner.SpawnSquareEntity();
+    protected virtual void SpawnSquareEntity() => squareEntitySpawner.SpawnSquareEntity();
+    protected int GetTotalSpawns() => (int)(LevelData.RoundDuration / SquareTimer.WaitTime);
+
+    /// <summary>
+    /// Configures the squares to be loaded and their spawn probabilities for the level.
+    /// This method must be implemented by derived classes to define which squares
+    /// should appear in the level and in what proportions. The method should call 
+    /// <see cref="SquareEntityManager.LoadSquares"/> with the desired configuration.
+    /// </summary>
+    /// <example>
+    /// hi
+    /// </example>
+    protected abstract void SetSquaresForLevel();
+
+    /// <summary>
+    /// Configures the squares for the level by specifying their types and optional probabilities.
+    /// If probabilities are not provided, they will be automatically balanced based on the remaining probability.
+    /// </summary>
+    /// <param name="configurations">Array of square configurations, each specifying a type and optional probability.</param>
+    protected void ConfigureSquares(params SquareConfiguration[] configurations)
+    {
+        squareEntityManager.LoadSquares(configurations);
+        squareEntitySpawner.InitialiseSpawnQueue(
+            totalSpawns: GetTotalSpawns(),
+            spawnInfos: squareEntityManager.GetSpawnInfo()
+        );
+    }
 
     internal virtual void OnSquareClicked(SquareEntity square)
     {
@@ -98,7 +120,7 @@ public partial class Level : Node2D
     {
         if (_currentRoundTime >= LevelData.RoundDuration) EndLevel(LevelOverType.TimeUp);
         else if (_score >= LevelData.ScoreToWin) EndLevel(LevelOverType.Won);
-        else if (_spawner.IsQueueEmpty) EndLevel(LevelOverType.NoMoreSquares);
+        else if (squareEntitySpawner.IsQueueEmpty) EndLevel(LevelOverType.NoMoreSquares);
     }
 
     protected void EndLevel(LevelOverType levelOverType)
@@ -111,9 +133,9 @@ public partial class Level : Node2D
 
     protected void SaveLevelAndPlayerData()
     {
-        LevelData.NormalSquareClicks = _clickDataRecorder.GetSquareEntityClickCount(EntityType.SQUARE);
-        LevelData.BadBlockClicks = _clickDataRecorder.GetSquareEntityClickCount(EntityType.BAD_BLOCK);
-        LevelData.PrizeBoxClicks = _clickDataRecorder.GetSquareEntityClickCount(EntityType.PRIZE_BOX);
+        LevelData.NormalSquareClicks = _clickDataRecorder.GetSquareEntityClickCount(SquareEntityType.SQUARE);
+        LevelData.BadBlockClicks = _clickDataRecorder.GetSquareEntityClickCount(SquareEntityType.BAD_BLOCK);
+        LevelData.PrizeBoxClicks = _clickDataRecorder.GetSquareEntityClickCount(SquareEntityType.PRIZE_BOX);
         LevelData.MissedClicks = _clickDataRecorder.MissedClickCount;
         LevelData.TotalClicks = _clickDataRecorder.TotalClicks;
         LevelData.Score = _score;

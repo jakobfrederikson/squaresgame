@@ -4,64 +4,50 @@ using System.IO;
 using System.Linq;
 using Godot;
 
-public class SquareEntityInfo
+public record SquareEntitySpawnInfo
 {
-    public EntityType Type { get; set; }
-    public float SpawnProbability { get; set; }
+    public SquareEntityType Type { get; set; }
+    public float SpawnPercentage { get; set; }
     public PackedScene Scene { get; set; }
 }
 
 public partial class SquareEntitySpawner : Node
 {
-    private PackedScene _squareScene;
-    private PackedScene _badBlockScene;
-    private PackedScene _prizeBoxScene;
-    private PackedScene _iceSquareScene;
-    private MissedClickHandler _missedClickHandler;
-
-    private List<SquareEntityInfo> _spawnQueue;
-
-    private Rect2 _viewportRect;
-    private Level _level;
-    private Random _rng;
+    private readonly List<SquareEntitySpawnInfo> _spawnQueue;
+    private readonly MissedClickHandler _missedClickHandler;
+    private readonly Level _level;
+    private readonly Random _rng;
 
     public bool IsQueueEmpty => _spawnQueue.Count == 0 ? true : false;
 
     public int Seed { get; private set; }
 
-    public SquareEntitySpawner(PackedScene squareScene,
-        PackedScene badBlockScene, PackedScene prizeBoxScene,
-        PackedScene iceSquareScene, MissedClickHandler missedClickHandler,
-         Rect2 viewportRect, Level level, int seed)
+    public SquareEntitySpawner(
+        MissedClickHandler missedClickHandler,
+        Level level,
+         int seed)
     {
-        _squareScene = squareScene;
-        _badBlockScene = badBlockScene;
-        _prizeBoxScene = prizeBoxScene;
-        _iceSquareScene = iceSquareScene;
         _missedClickHandler = missedClickHandler;
-        _viewportRect = viewportRect;
         _level = level;
         Seed = seed;
         _rng = new Random(seed);
+        _spawnQueue = new();
     }
 
-    public void PrecalculateSpawns(int totalSpawns, List<SquareEntityInfo> entityInfos)
+    public void InitialiseSpawnQueue(int totalSpawns, List<SquareEntitySpawnInfo> spawnInfos)
     {
-        float totalProbability = entityInfos.Sum(info => info.SpawnProbability);
-        if (Math.Abs(totalProbability - 1.0f) > 0.0001f)
-            throw new ArgumentException("The sum of all probabilities must equal to 1.0f.");
+        float totalPercentage = spawnInfos.Sum(info => info.SpawnPercentage);
+        if (Math.Abs(totalPercentage - 1.0f) > 0.0001f)
+            throw new ArgumentException("The sum of all percentages must equal to 1.0f.");
 
-        _spawnQueue = new List<SquareEntityInfo>();
-
-        foreach (var info in entityInfos)
+        foreach (var info in spawnInfos)
         {
-            int count = (int)(totalSpawns * info.SpawnProbability);
+            int count = (int)(totalSpawns * info.SpawnPercentage);
             for (int i = 0; i < count; i++)
             {
                 _spawnQueue.Add(info);
             }
         }
-
         ShuffleList(_spawnQueue);
         WriteToFile(_spawnQueue);
     }
@@ -83,22 +69,24 @@ public partial class SquareEntitySpawner : Node
     {
         if (_spawnQueue.Count == 0) return; // No more squares to spawn
 
-        PackedScene sqEntityToSpawn = _spawnQueue[0].Scene;
-        SquareEntity entity = sqEntityToSpawn.Instantiate<SquareEntity>();
-        entity.Type = _spawnQueue[0].Type;
+        SquareEntitySpawnInfo info = _spawnQueue[0];
+        SquareEntity squareEntity = info.Scene.Instantiate<SquareEntity>();
+        squareEntity.Type = info.Type;
+
         _spawnQueue.RemoveAt(0);
 
-        _level.AddChild(entity);
-        _missedClickHandler.RegisterSquareEntity(entity);
-        entity.Clicked += _level.OnSquareClicked;
+        _level.AddChild(squareEntity);
+        _missedClickHandler.RegisterSquareEntity(squareEntity);
+        squareEntity.Clicked += _level.OnSquareClicked;
 
         var rng = new RandomNumberGenerator();
-        float x = rng.RandfRange(_viewportRect.Position.X + entity.Size().X / 2, _viewportRect.Position.X + _viewportRect.Size.X - entity.Size().X / 2);
-        float y = rng.RandfRange(_viewportRect.Position.Y + entity.Size().Y / 2, _viewportRect.Position.Y + _viewportRect.Size.Y - entity.Size().Y / 2);
-        entity.Position = new Vector2(x, y);
+        var viewportRect = _level.GetViewport().GetVisibleRect();
+        float x = rng.RandfRange(viewportRect.Position.X + squareEntity.Size().X / 2, viewportRect.Position.X + viewportRect.Size.X - squareEntity.Size().X / 2);
+        float y = rng.RandfRange(viewportRect.Position.Y + squareEntity.Size().Y / 2, viewportRect.Position.Y + viewportRect.Size.Y - squareEntity.Size().Y / 2);
+        squareEntity.Position = new Vector2(x, y);
     }
 
-    private void WriteToFile(List<SquareEntityInfo> spawnQueue)
+    private void WriteToFile(List<SquareEntitySpawnInfo> spawnQueue)
     {
         int fileIndex = 1;
         string fileName;

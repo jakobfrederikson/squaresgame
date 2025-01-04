@@ -9,14 +9,14 @@ public partial class Level3 : Level
 		GD.Print("Hello Level 3");
 
 		SquareTimer.WaitTime = 0.25;
+	}
 
-		int totalSpawns = (int)(GetLevelDuration() / SquareTimer.WaitTime);
-		var entityInfos = new List<SquareEntityInfo>
-		{
-			new SquareEntityInfo { Type = EntityType.SQUARE, SpawnProbability = 0.3f, Scene = SquareScene},
-			new SquareEntityInfo { Type = EntityType.BAD_BLOCK, SpawnProbability = 0.2f, Scene = BadBlockScene},
-			new SquareEntityInfo { Type = EntityType.PRIZE_BOX, SpawnProbability = 0.5f, Scene = PrizeBoxScene}
-		};
-		_spawner.PrecalculateSpawns(totalSpawns, entityInfos);
+	protected override void SetSquaresForLevel()
+	{
+		ConfigureSquares(
+			new SquareConfiguration(SquareEntityType.SQUARE, 0.3f),
+			new SquareConfiguration(SquareEntityType.BAD_BLOCK, 0.2f),
+			new SquareConfiguration(SquareEntityType.PRIZE_BOX, 0.5f)
+		);
 	}
 }
