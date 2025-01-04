@@ -21,47 +21,63 @@ public abstract partial class Level : Node2D
     protected SquareEntitySpawner squareEntitySpawner;
     protected int _score;
     protected int _currentRoundTime;
+
     protected int TimeTakenToFinishLevel => LevelData.RoundDuration - _currentRoundTime;
 
     public override void _Ready()
     {
         GD.Print("Hello from base level class.");
-        GD.Print(LevelData);
 
+        InitialiseTimers();
+        InitialisePlayerData();
+        InitialiseHUD();
+        InitialiseHandlers();
+
+        _score = 0;
+        _currentRoundTime = LevelData.RoundDuration;
+
+        squareEntityManager = new SquareEntityManager();
+        squareEntitySpawner = new SquareEntitySpawner(_missedClickHandler, this, seed: 1);
+        _clickDataRecorder = new ClickDataRecorder();
+
+        SetSquaresForLevel();
+    }
+
+    /// <summary>
+    /// Initializes the timers and their respective signals.
+    /// </summary>
+    private void InitialiseTimers()
+    {
         SquareTimer.Timeout += SpawnSquareEntity;
         SquareTimer.Autostart = true;
 
         RoundTimer.Timeout += UpdateHUDTime;
         RoundTimer.Timeout += CheckGameEnd;
         RoundTimer.Autostart = true;
+    }
 
-        // Get PlayerData
+    private void InitialisePlayerData()
+    {
         PlayerData = (PlayerData)ResourceDataLoader.Get(ResourcePath.PLAYER_DATA);
+    }
 
-        // Initialize the HUD
+    private void InitialiseHUD()
+    {
         var hudScene = (PackedScene)GD.Load("res://Scenes/HUD/HUD.tscn");
         hud = hudScene.Instantiate<Hud>();
         AddChild(hud);
+    }
 
+    /// <summary>
+    /// Sets up handlers for missed clicks and back button creation.
+    /// </summary>
+    private void InitialiseHandlers()
+    {
         _missedClickHandler = new MissedClickHandler();
         _missedClickHandler.SquareEntityMissClicked += OnSquareMissClicked;
         AddChild(_missedClickHandler);
 
         CreateBackButton();
-
-        _score = 0;
-
-        squareEntityManager = new();
-        squareEntitySpawner = new SquareEntitySpawner(
-            _missedClickHandler,
-            level: this,
-            seed: 1);
-
-        _clickDataRecorder = new ClickDataRecorder();
-
-        _currentRoundTime = LevelData.RoundDuration;
-
-        SetSquaresForLevel();
     }
 
     protected virtual float GetLevelDuration() => LevelData.RoundDuration;
@@ -71,17 +87,12 @@ public abstract partial class Level : Node2D
     /// <summary>
     /// Configures the squares to be loaded and their spawn probabilities for the level.
     /// This method must be implemented by derived classes to define which squares
-    /// should appear in the level and in what proportions. The method should call 
-    /// <see cref="SquareEntityManager.LoadSquares"/> with the desired configuration.
+    /// should appear in the level and in what proportions.
     /// </summary>
-    /// <example>
-    /// hi
-    /// </example>
     protected abstract void SetSquaresForLevel();
 
     /// <summary>
     /// Configures the squares for the level by specifying their types and optional probabilities.
-    /// If probabilities are not provided, they will be automatically balanced based on the remaining probability.
     /// </summary>
     /// <param name="configurations">Array of square configurations, each specifying a type and optional probability.</param>
     protected void ConfigureSquares(params SquareConfiguration[] configurations)
