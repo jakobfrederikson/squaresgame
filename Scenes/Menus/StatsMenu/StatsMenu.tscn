@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://enln6g2j38l"]
 
 [ext_resource type="Script" path="res://Scenes/Menus/StatsMenu/StatsMenu.cs" id="1_42dys"]
-[ext_resource type="Resource" uid="uid://d22bimyxubmyj" path="res://Resources/PlayerData/PlayerData.tres" id="2_6a7xe"]
+[ext_resource type="Resource" uid="uid://bi14hjgnw46ad" path="res://Resources/PlayerData/PlayerData.tres" id="2_6a7xe"]
 
 [node name="StatsMenu" type="Control" node_paths=PackedStringArray("mainMenuButton", "resetStatsButton", "givePointsButton", "PointsLabel", "TotalPointsLabel", "UpgradesGridContainer", "SquaresClickedLabel", "UprgSquaresClickedLabel", "AccuracyLabel", "AccuracyByLevelContainer")]
 layout_mode = 3

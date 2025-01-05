@@ -5,11 +5,11 @@
 [resource]
 script = ExtResource("1_nyonu")
 TexturePath = "res://icon.svg"
-Name = "Auto Click"
-Description = "Automatically clicks squares for you."
+Name = "Upgrade Test"
+Description = "Testing Upgrades"
 Cost = 100
 IsBought = true
-UpgradeStage = 2
 IsEnabled = false
+UpgradeStage = 2
 SqauresClicked = 0
 PathToResource = "res://Resources/UpgradeData/UpgradeTest.tres"

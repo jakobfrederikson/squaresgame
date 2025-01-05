@@ -39,7 +39,11 @@ public partial class StatsMenu : Control
 
 	private void InitialiseUpgrades()
 	{
-		if (playerData.Upgrades.Count() == 0)
+		UpgradeManagerData upgradeManagerData = new();
+		var upgrades = upgradeManagerData.GetAllUpgrades();
+		System.Console.WriteLine("WRITING ALL UPGRADES NAMES	");
+		foreach (var u in upgrades) Console.WriteLine(u.Name);
+		if (upgrades.Count() == 0)
 		{
 			var noUpgradesLabel = new Label();
 			noUpgradesLabel.Text = "No Upgrades yet.";
@@ -47,7 +51,7 @@ public partial class StatsMenu : Control
 			return;
 		}
 
-		foreach (var upgrade in playerData.Upgrades)
+		foreach (var upgrade in upgrades)
 		{
 			var UpgradeVBox = new VBoxContainer();
 			var UpgradeTitleLabel = new Label();

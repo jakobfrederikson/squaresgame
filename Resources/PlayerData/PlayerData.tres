@@ -1,14 +1,11 @@
-[gd_resource type="Resource" load_steps=4 format=3]
+[gd_resource type="Resource" load_steps=2 format=3 uid="uid://bi14hjgnw46ad"]
 
 [ext_resource type="Script" path="res://ResourceBases/PlayerData.cs" id="1_7ayl4"]
-[ext_resource type="Resource" path="res://Resources/UpgradeData/AutoClickUpgrade.tres" id="1_mlhjy"]
-[ext_resource type="Resource" path="res://Resources/UpgradeData/UpgradeTest.tres" id="2_wpchx"]
 
 [resource]
 script = ExtResource("1_7ayl4")
 TotalPoints = 343
 CurrentPoints = 343
-Upgrades = [ExtResource("1_mlhjy"), ExtResource("2_wpchx")]
 LifeTimeClicks = 512
 LifeTimeSquaresClicked = 450
 LifeTimeSquaresManuallyClicked = 0

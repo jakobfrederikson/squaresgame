@@ -52,7 +52,6 @@ public partial class UpgradeCard : PanelContainer
 
 			// Player data stuff
 			playerData.RemovePoints(upgradeData.Cost);
-			playerData.Upgrades.Add(upgradeData);
 
 			GD.Print($"Bought {upgradeData.Name}. Remaining points: {playerData.CurrentPoints}");
 			SaveData.SaveUpgradeData(upgradeData);
