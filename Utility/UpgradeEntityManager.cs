@@ -1,18 +1,17 @@
 using System.Collections.Generic;
 using Godot;
 
-[Tool]
-public partial class UpgradeManagerData : Resource
+public class UpgradeEntityManager
 {
     private readonly List<UpgradeData> _allUpgrades;
 
-    public UpgradeManagerData()
+    public UpgradeEntityManager()
     {
         _allUpgrades = new();
-        _allUpgrades = InitialiseAllUpgrades();
+        _allUpgrades = LoadAllUpgrades();
     }
 
-    private List<UpgradeData> InitialiseAllUpgrades()
+    private List<UpgradeData> LoadAllUpgrades()
     {
         List<UpgradeData> upgrades = new();
 
@@ -21,16 +20,12 @@ public partial class UpgradeManagerData : Resource
         {
             dir.ListDirBegin();
             string fileName = dir.GetNext();
-            while (fileName != "")
+            while (!string.IsNullOrEmpty(fileName))
             {
-                if (dir.CurrentIsDir())
-                {
-                    GD.Print($"Found directory: {fileName}");
-                }
-                else
+                if (!dir.CurrentIsDir())
                 {
                     GD.Print($"Found file: {fileName}");
-                    var upgrade = ResourceLoader.Load<UpgradeData>("res://Resources/UpgradeData/" + fileName);
+                    var upgrade = ResourceLoader.Load<UpgradeData>($"res://Resources/UpgradeData/{fileName}");
                     upgrades.Add(upgrade);
                 }
                 fileName = dir.GetNext();
@@ -44,8 +39,11 @@ public partial class UpgradeManagerData : Resource
         return upgrades;
     }
 
-    public List<UpgradeData> GetAllUpgrades()
-    {
-        return _allUpgrades;
-    }
+    public List<UpgradeData> GetAllUpgrades() => _allUpgrades;
+
+    public List<UpgradeData> GetBoughtUpgrades() =>
+        _allUpgrades.FindAll(upgrade => upgrade.IsBought);
+
+    public List<UpgradeData> GetEnabledUpgrades() =>
+        _allUpgrades.FindAll(upgrade => upgrade.IsBought && upgrade.IsEnabled);
 }

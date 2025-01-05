@@ -39,8 +39,8 @@ public partial class StatsMenu : Control
 
 	private void InitialiseUpgrades()
 	{
-		UpgradeManagerData upgradeManagerData = new();
-		var upgrades = upgradeManagerData.GetAllUpgrades();
+		UpgradeEntityManager upgradeDataManager = new();
+		var upgrades = upgradeDataManager.GetAllUpgrades();
 		System.Console.WriteLine("WRITING ALL UPGRADES NAMES	");
 		foreach (var u in upgrades) Console.WriteLine(u.Name);
 		if (upgrades.Count() == 0)
@@ -53,6 +53,8 @@ public partial class StatsMenu : Control
 
 		foreach (var upgrade in upgrades)
 		{
+			if (!upgrade.IsBought) return;
+
 			var UpgradeVBox = new VBoxContainer();
 			var UpgradeTitleLabel = new Label();
 			var UpgradeDescriptionLabel = new Label();

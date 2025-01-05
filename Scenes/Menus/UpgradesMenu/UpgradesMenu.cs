@@ -1,40 +1,42 @@
 using Godot;
 using System;
+using System.Collections.Generic;
 
 public partial class UpgradesMenu : Control
 {
 	[Export] private GridContainer gridContainer;
 	[Export] private PackedScene upgradeCardScene;
 
+	private UpgradeEntityManager _upgradeEntityManager;
+
 	public override void _Ready()
 	{
+		_upgradeEntityManager = new UpgradeEntityManager();
 		LoadUpgrades();
 	}
 
 	private void LoadUpgrades()
 	{
-		string upgradesPath = "res://Resources/UpgradeData/";
-		var dir = DirAccess.Open(upgradesPath);
+		List<UpgradeData> allUpgrades = _upgradeEntityManager.GetAllUpgrades();
 
-		if (dir == null)
-			GD.PrintErr($"Failed to open upgrades directory: {dir}");
-
-		dir.ListDirBegin();
-		while (true)
+		if (allUpgrades == null || allUpgrades.Count == 0)
 		{
-			string folderName = dir.GetNext();
-			if (folderName == "") break;
+			GD.PrintErr("No upgrades found to display in the menu.");
+			return;
+		}
 
-			string upgradePath = upgradesPath + $"{folderName}";
-			GD.Print(upgradePath);
-			var upgradeData = ResourceLoader.Load<UpgradeData>(upgradePath);
+		foreach (var upgradeData in allUpgrades)
+		{
+			if (upgradeData == null)
+			{
+				GD.PrintErr("Encountered a null UpgradeData entry.");
+				continue;
+			}
 
 			UpgradeCard upgradeCard = (UpgradeCard)upgradeCardScene.Instantiate();
 			upgradeCard.Initialize(upgradeData);
-
 			gridContainer.AddChild(upgradeCard);
 		}
-		dir.ListDirEnd();
 	}
 
 	public void OnStartMenuButtonPressed()

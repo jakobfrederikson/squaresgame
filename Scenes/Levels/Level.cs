@@ -19,6 +19,8 @@ public abstract partial class Level : Node2D
     protected ClickDataRecorder _clickDataRecorder;
     protected SquareEntityManager squareEntityManager;
     protected SquareEntitySpawner squareEntitySpawner;
+    protected UpgradeEntityManager upgradeEntityManager;
+    protected UpgradeEntitySpawner upgradeEntitySpawner;
     protected int _score;
     protected int _currentRoundTime;
 
@@ -38,6 +40,13 @@ public abstract partial class Level : Node2D
 
         squareEntityManager = new SquareEntityManager();
         squareEntitySpawner = new SquareEntitySpawner(_missedClickHandler, this, seed: 1);
+
+        upgradeEntityManager = new UpgradeEntityManager();
+        var enabledUpgrades = upgradeEntityManager.GetEnabledUpgrades();
+
+        upgradeEntitySpawner = new UpgradeEntitySpawner(this);
+        upgradeEntitySpawner.SpawnUpgrades(enabledUpgrades);
+
         _clickDataRecorder = new ClickDataRecorder();
 
         SetSquaresForLevel();
