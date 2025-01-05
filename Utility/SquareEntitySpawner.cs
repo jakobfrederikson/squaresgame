@@ -19,6 +19,7 @@ public partial class SquareEntitySpawner : Node
     private readonly Random _rng;
 
     public bool IsQueueEmpty => _spawnQueue.Count == 0 ? true : false;
+    public int QueueAmount => _spawnQueue.Count;
 
     public int Seed { get; private set; }
 
@@ -49,6 +50,8 @@ public partial class SquareEntitySpawner : Node
             }
         }
         ShuffleList(_spawnQueue);
+
+        GD.Print("AMOUNT OF SQUARES IN QUEUE: " + _spawnQueue.Count);
     }
 
     private void ShuffleList<T>(List<T> list)
@@ -71,6 +74,7 @@ public partial class SquareEntitySpawner : Node
         SquareEntitySpawnInfo info = _spawnQueue[0];
         SquareEntity squareEntity = info.Scene.Instantiate<SquareEntity>();
         squareEntity.Type = info.Type;
+        squareEntity.AddToGroup("Squares");
 
         _spawnQueue.RemoveAt(0);
 

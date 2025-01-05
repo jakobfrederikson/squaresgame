@@ -17,10 +17,10 @@ public abstract partial class Level : Node2D
     protected Hud hud;
     protected MissedClickHandler _missedClickHandler;
     protected ClickDataRecorder _clickDataRecorder;
-    protected SquareEntityManager squareEntityManager;
-    protected SquareEntitySpawner squareEntitySpawner;
-    protected UpgradeEntityManager upgradeEntityManager;
-    protected UpgradeEntitySpawner upgradeEntitySpawner;
+    protected SquareEntityManager SquareEntityManager;
+    protected SquareEntitySpawner SquareEntitySpawner;
+    protected UpgradeEntityManager UpgradeEntityManager;
+    protected UpgradeEntitySpawner UpgradeEntitySpawner;
     protected int _score;
     protected int _currentRoundTime;
 
@@ -38,18 +38,15 @@ public abstract partial class Level : Node2D
         _score = 0;
         _currentRoundTime = LevelData.RoundDuration;
 
-        squareEntityManager = new SquareEntityManager();
-        squareEntitySpawner = new SquareEntitySpawner(_missedClickHandler, this, seed: 1);
+        SquareEntityManager = new SquareEntityManager();
+        SquareEntitySpawner = new SquareEntitySpawner(_missedClickHandler, this, seed: 1);
 
-        upgradeEntityManager = new UpgradeEntityManager();
-        var enabledUpgrades = upgradeEntityManager.GetEnabledUpgrades();
+        UpgradeEntityManager = new UpgradeEntityManager();
 
-        upgradeEntitySpawner = new UpgradeEntitySpawner(this);
-        upgradeEntitySpawner.SpawnUpgrades(enabledUpgrades);
+        UpgradeEntitySpawner = new UpgradeEntitySpawner(this);
+        UpgradeEntitySpawner.SpawnUpgrades(UpgradeEntityManager.GetEnabledUpgrades());
 
         _clickDataRecorder = new ClickDataRecorder();
-
-        SetSquaresForLevel();
     }
 
     /// <summary>
@@ -90,7 +87,7 @@ public abstract partial class Level : Node2D
     }
 
     protected virtual float GetLevelDuration() => LevelData.RoundDuration;
-    protected virtual void SpawnSquareEntity() => squareEntitySpawner.SpawnSquareEntity();
+    protected virtual void SpawnSquareEntity() => SquareEntitySpawner.SpawnSquareEntity();
     protected int GetTotalSpawns() => (int)(LevelData.RoundDuration / SquareTimer.WaitTime);
 
     /// <summary>
@@ -106,10 +103,10 @@ public abstract partial class Level : Node2D
     /// <param name="configurations">Array of square configurations, each specifying a type and optional probability.</param>
     protected void ConfigureSquares(params SquareConfiguration[] configurations)
     {
-        squareEntityManager.LoadSquares(configurations);
-        squareEntitySpawner.InitialiseSpawnQueue(
+        SquareEntityManager.LoadSquares(configurations);
+        SquareEntitySpawner.InitialiseSpawnQueue(
             totalSpawns: GetTotalSpawns(),
-            spawnInfos: squareEntityManager.GetSpawnInfo()
+            spawnInfos: SquareEntityManager.GetSpawnInfo()
         );
     }
 
@@ -140,7 +137,7 @@ public abstract partial class Level : Node2D
     {
         if (_currentRoundTime >= LevelData.RoundDuration) EndLevel(LevelOverType.TimeUp);
         else if (_score >= LevelData.ScoreToWin) EndLevel(LevelOverType.Won);
-        else if (squareEntitySpawner.IsQueueEmpty) EndLevel(LevelOverType.NoMoreSquares);
+        else if (SquareEntitySpawner.IsQueueEmpty) EndLevel(LevelOverType.NoMoreSquares);
     }
 
     protected void EndLevel(LevelOverType levelOverType)

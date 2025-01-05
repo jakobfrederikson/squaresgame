@@ -16,10 +16,11 @@ public class UpgradeEntitySpawner
         {
             if (ResourceLoader.Exists(upgradeData.PathToResource))
             {
-                var packedScene = ResourceLoader.Load<PackedScene>(upgradeData.PathToResource);
+                var packedScene = ResourceLoader.Load<PackedScene>(upgradeData.PathToScene);
                 if (packedScene != null)
                 {
                     var upgrade = packedScene.Instantiate<UpgradeEntity>();
+                    upgrade.Initialise(upgradeData, _level);
                     _level.AddChild(upgrade);
                 }
             }

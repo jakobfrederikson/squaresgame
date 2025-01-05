@@ -62,7 +62,7 @@ public partial class StatsMenu : Control
 
 			UpgradeTitleLabel.Text = upgrade.Name;
 			UpgradeDescriptionLabel.Text = upgrade.Description;
-			UpgradeStage.Text = "Stage: " + Convert.ToString(upgrade.UpgradeStage);
+			UpgradeStage.Text = "Stage: " + Convert.ToString(upgrade.Stage);
 
 			UpgradesGridContainer.AddChild(UpgradeVBox);
 			UpgradeVBox.AddChild(UpgradeTitleLabel);

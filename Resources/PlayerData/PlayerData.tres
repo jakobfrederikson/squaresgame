@@ -1,16 +1,16 @@
-[gd_resource type="Resource" load_steps=2 format=3 uid="uid://bi14hjgnw46ad"]
+[gd_resource type="Resource" load_steps=2 format=3]
 
 [ext_resource type="Script" path="res://ResourceBases/PlayerData.cs" id="1_7ayl4"]
 
 [resource]
 script = ExtResource("1_7ayl4")
-TotalPoints = 343
-CurrentPoints = 343
-LifeTimeClicks = 512
-LifeTimeSquaresClicked = 450
+TotalPoints = 712
+CurrentPoints = 712
+LifeTimeClicks = 789
+LifeTimeSquaresClicked = 693
 LifeTimeSquaresManuallyClicked = 0
 LifeTimeSquaresClickedByUpgrade = 0
-LifeTimeGoodSquaresClicked = 450
-LifeTimeBadSquaresClicked = 0
-LifeTimeMissedClicks = 50
-LifeTimeOverallAccuracy = 87.8906
+LifeTimeGoodSquaresClicked = 692
+LifeTimeBadSquaresClicked = 1
+LifeTimeMissedClicks = 74
+LifeTimeOverallAccuracy = 87.706

@@ -2,15 +2,14 @@ using Godot;
 
 public partial class UpgradeEntity : Node2D
 {
-    public virtual void ApplyEffect(Level level) { }
+    protected UpgradeData p_upgradeData;
+    protected Level p_level;
 
-    public override void _Ready()
+    public void Initialise(UpgradeData upgradeData, Level level)
     {
-        base._Ready();
+        p_upgradeData = upgradeData;
+        p_level = level;
     }
 
-    public override void _Process(double delta)
-    {
-        base._Process(delta);
-    }
+    public virtual void ApplyEffect() { }
 }

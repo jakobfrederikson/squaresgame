@@ -9,7 +9,8 @@ public partial class UpgradeData : Resource
     [Export] public int Cost;
     [Export] public bool IsBought;
     [Export] public bool IsEnabled;
-    [Export] public int UpgradeStage;
+    [Export] public int Stage;
     [Export] public int SqauresClicked;
     [Export(PropertyHint.File, ("*.tres"))] public string PathToResource;
+    [Export(PropertyHint.File, ("*.tscn"))] public string PathToScene;
 }

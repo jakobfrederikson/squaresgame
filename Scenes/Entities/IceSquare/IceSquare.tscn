@@ -5,6 +5,7 @@
 [node name="IceSquare" type="Node2D" node_paths=PackedStringArray("control")]
 script = ExtResource("1_nmfd7")
 control = NodePath("Control")
+ClickType = 2
 
 [node name="Control" type="Control" parent="."]
 layout_mode = 3

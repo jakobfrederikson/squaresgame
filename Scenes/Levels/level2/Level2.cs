@@ -9,6 +9,8 @@ public partial class Level2 : Level
 		GD.Print("Hello Level 2");
 
 		SquareTimer.WaitTime = 0.5;
+
+		SetSquaresForLevel();
 	}
 
 	protected override void SetSquaresForLevel()

@@ -5,6 +5,7 @@
 [node name="BadBlock" type="Node2D" node_paths=PackedStringArray("control")]
 script = ExtResource("1_dof2d")
 control = NodePath("Control")
+ClickType = 1
 
 [node name="Control" type="Control" parent="."]
 layout_mode = 3

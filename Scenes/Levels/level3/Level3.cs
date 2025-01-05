@@ -9,6 +9,8 @@ public partial class Level3 : Level
 		GD.Print("Hello Level 3");
 
 		SquareTimer.WaitTime = 0.25;
+
+		SetSquaresForLevel();
 	}
 
 	protected override void SetSquaresForLevel()
@@ -16,7 +18,7 @@ public partial class Level3 : Level
 		ConfigureSquares(
 			new SquareConfiguration(SquareEntityType.SQUARE, 0.3f),
 			new SquareConfiguration(SquareEntityType.BAD_BLOCK, 0.2f),
-			new SquareConfiguration(SquareEntityType.PRIZE_BOX, 0.5f)
+			new SquareConfiguration(SquareEntityType.PRIZE_BOX)
 		);
 	}
 }

@@ -22,7 +22,17 @@ public partial class SquareEntity : Node2D
     public virtual int ScoreValue => 1;
     public SquareEntityType Type { get; set; }
 
-    // Called when the node enters the scene tree for the first time.
+    public enum SquareEntityClickType
+    {
+        Positive,
+        Negative,
+        Neutral
+    }
+
+    [Export] public SquareEntityClickType ClickType { get; set; }
+    public bool IsPositive => ClickType == SquareEntityClickType.Positive;
+    public bool IsActive => IsInsideTree() && Visible;
+
     public override void _Ready()
     {
         _mouseInSquare = false;
@@ -56,12 +66,18 @@ public partial class SquareEntity : Node2D
         Input.SetCustomMouseCursor(_defaultCursor);
     }
 
+    public void Click()
+    {
+        GD.Print($"{Name} clicked!");
+        EmitSignal(SignalName.Clicked, this);
+        Despawn();
+    }
+
     public override void _Input(InputEvent @event)
     {
         if (@event.IsActionPressed("left_mouse_click") && _mouseInSquare)
         {
-            EmitSignal(SignalName.Clicked, this);
-            Despawn();
+            Click();
         }
     }
 
